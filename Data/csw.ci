@@ -1,0 +1,57 @@
+%                                    MMCI
+%              (Confidence Interval for Mismatch Distributions)
+%                             by Alan R. Rogers
+%                                Version 4-2
+%                                16 Nov 1998
+%                          Type `mmci -- ' for help
+
+%     theta         mn        tau          K
+% 1000.0000     0.0000    70.0000          1
+%   10.0000     0.0000        Inf          1
+
+% Using histogram of length 31. Input histogram had length 31.
+%InputFile = csw.mm;
+%Iterations = 50;
+% total sampsize=147 subdivisions=1
+% subdivision sizes: 147
+%Sampsize = 147;
+% Mutation model = infinite sites
+% Tests use: MAE
+% Observed values: MAE=0.002538;
+RangeLog10Theta0 = 0.000000 3.000000 1.000000 ;
+RangeGrowth = 0.000000 1.000000 1.000000 ;
+RangeTau = 2.000000 10.000000 2.000000 ;
+%%%%%%%%%%%%%%%Confidence Interval%%%%%%%%%%%%%%%
+
+% Begin figure 1
+    Growth =       0.00000 ;
+%                       tau log10[theta0]         p-val
+      Test =     2.0000000     0.0000000     0.0000000 ;
+      Test =     2.0000000     1.0000000     0.2800000 ;
+      Test =     2.0000000     2.0000000     0.0000000 ;
+      Test =     2.0000000     3.0000000     0.0000000 ;
+
+% Begin figure 2
+    Growth =       1.00000 ;
+%                       tau log10[theta0]         p-val
+      Test =     2.0000000     0.0000000     0.0000000 ;
+      Test =     2.0000000     1.0000000     0.2000000 ;
+      Test =     2.0000000     2.0000000     0.0000000 ;
+      Test =     2.0000000     3.0000000     0.0000000 ;
+      Test =     4.0000000     0.0000000     0.0000000 ;
+      Test =     4.0000000     1.0000000     0.6000000 ;
+      Test =     4.0000000     2.0000000     0.0000000 ;
+      Test =     4.0000000     3.0000000     0.0000000 ;
+      Test =     6.0000000     0.0000000     0.0200000 ;
+      Test =     6.0000000     1.0000000     0.3800000 ;
+      Test =     6.0000000     2.0000000     0.0000000 ;
+      Test =     6.0000000     3.0000000     0.0000000 ;
+      Test =     8.0000000     0.0000000     0.2600000 ;
+      Test =     8.0000000     1.0000000     0.0200000 ;
+      Test =     8.0000000     2.0000000     0.0000000 ;
+      Test =     8.0000000     3.0000000     0.0000000 ;
+      Test =    10.0000000     0.0000000     0.4800000 ;
+      Test =    10.0000000     1.0000000     0.0000000 ;
+      Test =    10.0000000     2.0000000     0.0000000 ;
+      Test =    10.0000000     3.0000000     0.0000000 ;
+%%%%%%%%%%%%%%%end of confidence region%%%%%%%%%%%%%%%

@@ -1,0 +1,23 @@
+% -*-latex-*-
+% Creation Date: Sun Apr 30 08:07:07 1995
+%\includeonly{tutorial}
+\documentclass[]{report}
+\usepackage{definition,alltt}
+%\usepackage{misdefs}  % for pretty output
+\usepackage{txtdefs}  % for plain-text output
+\begin{document}
+\input{frontmatter}
+\part{Users' Guide}
+\input{intro}
+\input{tutorial}
+\part{Reference Manual}
+\input{ci2txt}
+\input{ci2ptx}
+\input{mmci}
+\input{mmgen}
+\input{mmest}
+\input{normdist}
+\input{simulate}
+\bibliographystyle{plain}
+\bibliography{defs,mismatch}
+\end{document}

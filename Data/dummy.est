@@ -1,0 +1,25 @@
+%                                   MMEST
+%                  (Estimation from Mismatch Distribution)
+%                             by Alan R. Rogers
+%                                Version 4-1
+%                                12 Nov 1998
+%                         Type `mmest -- ' for help
+
+% Cmd line: mmest dummy.mm
+%Using histogram of length 13. Input histogram had length 13.
+InputFile = dummy.mm;
+NSequences = 10;
+NSites = 20;
+Mismatch = 0 0 2 4 7 5 5 5 5 4 2 4 2;
+
+%                       mean           var E[(x-mean)^3]
+   Cumulants =       6.62222       7.74617       5.65513 ;
+
+%       theta0    theta1       tau       MAE     Rghns       Seg
+Est=      1.06       Inf     5.562    0.1261   0.01679        16;
+
+%mmci ranges are specified by: start_val, end_val, increment
+%Edit the following to control mmci:
+RangeLog10Theta0 = 0 3 0.50 ;
+RangeGrowth = 0 3 1 ;
+RangeTau = 2 12 2 ;

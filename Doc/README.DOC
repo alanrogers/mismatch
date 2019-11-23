@@ -1,0 +1,91 @@
+1. CONTENTS OF THIS DIRECTORY
+
+Makefile          Tell the make program how to produce manual.
+README.DOC        This file
+ci2txt.tex        Chapter on ci2txt
+ci2ptx.tex        Chapter on ci2ptx
+definition.sty    Defines the "definition" macro
+defs.bib          Definitions for bibtex
+frontmatter.tex   Table of contents
+intro.tex         Introductory chapter
+main.dvi          Manual in TeX's .dvi format.               <===
+main.ps           Manual formatted for postscript printers   <===
+main.txt          Manual in plain text format                <===
+main.tex          Main LaTeX file
+misdefs.sty       LaTeX definitions used in this manual
+txtdefs.sty       LaTeX definitions for text-only output
+mismatch.bib      Bibliography database
+mmci.tex          Chapter on mmci
+mmest.tex         Chapter on mmest
+mmgen.tex         Chapter on mmgen
+normdist.tex      Chapter on normdist
+simulate.tex      Chapter on simulation algorithm
+tutorial.tex      Tutorial chapter
+
+2. PRINTING THE MANUAL
+
+You can print the manual either by sending main.ps to a postscript
+printer, by using ghostscript to convert main.ps into the format that
+your printer understands, or by using some program designed to convert
+.dvi format into the format that your printer understands.  If none of
+this means anything to you, then use the plain-text version of the
+manual, main.txt.
+
+processing main.i with
+
+You will need to run off a copy of the manual.  The procedure for
+doing this will depend both on the kind of printer you are using and
+on the kind of computer you are using.  
+
+2.1. Which file is appropriate for your printer?
+
+The distribution includes several versions of the manual, each
+formatted in a different way.  These include:
+
+  File                  Format
+
+  main.ps               postscript (Apple Laserwriter, etc)
+  main.dvi              TeX .dvi format
+
+If your printer appears in the list above, choose the appropriate
+file.  If your printer does not appear in the list, but you know about
+TeX, you can generate a version for your own printer from the
+"main.dvi" file.  Otherwise, send me email (rogers@anthro.utah.edu)
+and I will either generate a version of the manual for your printer or
+else send you hard copy.
+
+2.2 Printing the file
+
+Unless you are on a Macintosh, you can print the manual by sending the
+relevant file to your printer using the command that you always use.
+For example,
+
+  Operating system    Command
+
+  Berkeley Unix       lpr main.dvi-jep
+  AT&T Unix           lp main.dvi-jep
+  DOS                 copy /b main.dvi-jep prn:
+                   or copy /b main.dvi-jep lpt1:
+                      copy main.dvi-alw prn:
+                   or copy main.dvi-alw lpt1:
+
+Note that under DOS, the /b flag is needed if you are using
+main.dvi-jep but not if you are using main.dvi-alw.
+
+2.2.1. Problems
+
+* You will get garbage under DOS if you fail to use the /b flag when
+printing main.dvi-jep.
+
+* The manual may fail to print correctly if your printer does not have
+much memory.
+
+* If you are on a Mac, and you do the obvious thing, your printer will
+probably generate page after page of postscript instructions rather
+using the postscript instructions to generate the manual.  This is
+because the Mac does not send the file to the printer "as is", but
+wraps it in a package that tells the printer to treat the file not as
+instructions but as data.  To print postscript on a Mac, you have to
+use a special program that does not come with the operating system.
+The relevant program is available over the net on various shareware
+archives.  I believe its name is "send-ps".

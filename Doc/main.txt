@@ -1,0 +1,1789 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+NOTE: This was generated from main.dvi using the program dvi2tty.  It
+is a pretty good rendering of the text, but not such a good rendering
+of themathematics.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+                      MISMATCH
+
+Computer Programs for Analysis of Mismatch
+
+                      Distributions
+
+
+                         Version: 4-2
+                         16 Nov 1998
+
+
+                              by
+                        Alan R. Rogers
+                    Dept of Anthropology
+                      University of Utah
+                   Salt Lake City, UT 84108
+
+
+                    rogers@anthro.utah.edu
+
+
+
+
+Contents
+
+
+I   Users' Guide                                            3
+
+
+1  Introduction                                                4
+   1.1  Package contents  . . . . . . . . . . . . . . . . . . . . .    4
+   1.2  Overview   . . . . . . . . . . . . . . . . . . . . . . . . .    4
+   1.3  Getting information over the net  . . . . . . . . . . . .    5
+   1.4  Installation  . . . . . . . . . . . . . . . . . . . . . . . .    5
+
+
+2  Tutorial                                                     6
+   2.1  Generating a mismatch distribution from sequence data   6
+   2.2  Creating an input file for mmest  . . . . . . . . . . . . .    8
+   2.3  Estimating parameters with mmest  . . . . . . . . . . .    8
+   2.4  Constructing a confidence interval   . . . . . . . . . . .  10
+   2.5  Plotting a Confidence Interval . . . . . . . . . . . . . .  12
+II   Reference Manual                                   14
+
+
+3  Program: ci2txt                                          15
+   3.1  Purpose  . . . . . . . . . . . . . . . . . . . . . . . . . .  15
+   3.2  Usage   . . . . . . . . . . . . . . . . . . . . . . . . . . .  15
+   3.3  Description  . . . . . . . . . . . . . . . . . . . . . . . .  15
+
+
+4  Program: ci2ptx                                          18
+   4.1  Purpose  . . . . . . . . . . . . . . . . . . . . . . . . . .  18
+   4.2  Usage   . . . . . . . . . . . . . . . . . . . . . . . . . . .  18
+   4.3  Description  . . . . . . . . . . . . . . . . . . . . . . . .  18
+        4.3.1  Customizing the figure  . . . . . . . . . . . . . .  19
+
+
+5  Program: mmci                                             21
+   5.1  Purpose  . . . . . . . . . . . . . . . . . . . . . . . . . .  21
+   5.2  Usage   . . . . . . . . . . . . . . . . . . . . . . . . . . .  21
+   5.3  Description  . . . . . . . . . . . . . . . . . . . . . . . .  22
+        5.3.1  Testing a population history . . . . . . . . . . .  22
+        5.3.2  Models of mutation   . . . . . . . . . . . . . . .  22
+
+                                 1
+
+   5.4  Input . . . . . . . . . . . . . . . . . . . . . . . . . . . .  23
+        5.4.1  Command line arguments  . . . . . . . . . . . .  23
+        5.4.2  The primary input file  . . . . . . . . . . . . . .  23
+        5.4.3  The population history file   . . . . . . . . . . .  24
+   5.5  Output   . . . . . . . . . . . . . . . . . . . . . . . . . .  25
+
+
+6  Program: mmgen                                           27
+   6.1  Purpose  . . . . . . . . . . . . . . . . . . . . . . . . . .  27
+   6.2  Usage   . . . . . . . . . . . . . . . . . . . . . . . . . . .  27
+   6.3  Description  . . . . . . . . . . . . . . . . . . . . . . . .  28
+   6.4  Bugs  . . . . . . . . . . . . . . . . . . . . . . . . . . . .  28
+
+
+7  Program: mmest                                           29
+   7.1  Purpose  . . . . . . . . . . . . . . . . . . . . . . . . . .  29
+   7.2  Usage   . . . . . . . . . . . . . . . . . . . . . . . . . . .  29
+   7.3  Input . . . . . . . . . . . . . . . . . . . . . . . . . . . .  29
+   7.4  Output   . . . . . . . . . . . . . . . . . . . . . . . . . .  30
+
+
+8  Program: normdist                                        31
+   8.1  Purpose  . . . . . . . . . . . . . . . . . . . . . . . . . .  31
+   8.2  Usage   . . . . . . . . . . . . . . . . . . . . . . . . . . .  31
+   8.3  Description  . . . . . . . . . . . . . . . . . . . . . . . .  31
+   8.4  Normalizing Mismatch Distributions  . . . . . . . . . .  31
+
+
+9  Simulations                                                33
+   9.1  Describing a population history  . . . . . . . . . . . . .  33
+   9.2  Generating a genealogy   . . . . . . . . . . . . . . . . .  34
+   9.3  Models of mutation . . . . . . . . . . . . . . . . . . . .  35
+        9.3.1  Model of infinite sites   . . . . . . . . . . . . . .  35
+        9.3.2  Model of finite sites with equal rates  . . . . . .  35
+        9.3.3  Model of finite sites with Gamma-distributed
+               rates  . . . . . . . . . . . . . . . . . . . . . . . .  36
+   9.4  Mathematical details of the coalescent algorithm  . . .  36
+
+
+
+                                 2
+
+
+
+          Part  I
+
+
+Users'  Guide
+                 3
+
+
+
+
+Chapter  1
+
+
+Introduction
+
+
+
+1.1     Package contents
+
+
+The package contains the following programs:
+
+mmest  estimate parameters
+
+mmci  construct a confidence region
+
+mmgen  general purpose simulation program
+
+ci2txt  read a confidence region (the output of mmci) and re-display
+     it using character graphics
+
+ci2ptx  read a confidence region (the output of mmci) and produce a
+     graphical display in PicTeX format.
+
+normdist  Normalize a distribution so that it sums to 1, or invert this
+     process to obtain a distribution of counts.
+
+makemm  Reads sequence data in PHYLIP format; writes a mismatch
+     distribution.
+
+
+
+1.2     Overview
+
+
+A Mismatch distribution (or distribution of pairwise differences) is a
+histogram whose i'th entry is the number of pairs of individuals in
+the data who differ by i sites.  Mismatch is a package of computer
+programs designed to analyze such data.
+   The package estimates parameters and tests hypotheses that relate
+to various models of population history.  Central among these is the
+"model of sudden expansion," which assumes that an initial popula-
+tion was at mutation-drift equilibrium with size N0, and then grew (or
+shrank) rapidly to size N1.  We observe it T generations later.  The
+
+
+
+                                 4
+
+behavior of the mismatch distribution can be predicted from three
+parameters:
+
+ theta0  =   2uN0,  where u is the mutation rate per generation,
+             summed over all nucleotide sites that contribute to the
+             analysis,
+
+ theta1  =   2uN1
+
+    tau  =   2uT
+
+The programs in this package estimate these parameters and con-
+struct a multivariate confidence region for them. In simulations, the
+program allows the user to specify a complex population history in-
+cluding an arbitrary number of changes in population size, in the
+number of subpopulations, and in the rate of migration between sub-
+populations. The simulation programs can also accomodate a variety
+of assumptions about the mutational process. The statistical methods
+are described in full by Rogers [6, 7, 8].
+
+
+
+1.3     Getting information over the net
+
+
+Unpublished papers describing these methods can be obtained elec-
+tronically via anonymous ftp from anthro.utah.edu. See the file ftp.doc,
+which is included with the distribution.
+
+
+
+1.4     Installation
+
+
+See the file named README.
+
+
+
+                                 5
+
+
+
+
+Chapter  2
+
+
+Tutorial
+
+
+The package can be used either to generate simulated data sets for
+given parameter values (see documentation of  mmgen below) or to
+analyze data in the form of a "mismatch distribution". This tutorial
+concerns the latter problem.
+
+
+
+2.1     Generating a mismatch distribution from
+
+        sequence data
+
+
+If you are beginning with sequence (or restriction site) data, the first
+step is to convert these into a mismatch distribution. If your data are
+in (noninterleaved) PHYLIP format, the program makemm will do this
+for you. This program reads sequence data such as that shown below:
+
+file: dummy.seq
+  10   20
+subject1   TGAAT TTGTC
+           CCCGC CCTCT
+subject2   TGAAT TTGTC
+           CCTAC ACCCT
+subject3   TAGAT CTGTC
+           TCTGA CCTCT
+subject4   TGAAT TTGTC
+           TCTGA CCTCT
+subject5   TGAAT TTGCC
+           ACCGC ACCCT
+subject6   AAGCT TCGTC
+           CTCAC GCTCT
+subject7   TGAAT TTGCC
+           CCCGC ACCTT
+subject8   TGACT TTGCC
+                                 6
+
+           CGCGC ACCCT
+subject9   TAGAT TTGTC
+           CCCGC GCTCC
+subject10 TGAAT TTGCC
+           CCCTC ACCTA
+
+The first line of this data tells the program that there are 10 subjects,
+each with data at 20 sites. The first 10 characters of the next line give
+the name of the 1st subject. After the name, the program expects to
+find sequence data. In reading sequence data, it ignores spaces, tabs,
+and linefeeds so that sequences can be spread across several lines or
+broken by vertical columns of whitespace.
+   To run the program on the data in file dummy.seq, type
+
+makemm dummy.seq
+
+or
+
+makemm < dummy.seq
+
+   The program writes the following result on the standard output:
+
+%                                         makemm
+%                           (make a mismatch distribution)
+%                                  by Alan R. Rogers
+%                                     Version 4-1
+%                                     12 Nov 1998
+%                             Type `makemm -- ' for help
+
+
+% Cmd line: makemm dummy.seq
+% pop   0 : dummy.seq
+% Results will include the reference sequence (line 1).
+
+
+% Population 0
+% 10 subjects 20 sites
+% mean pairwise diff = 6.622222.
+nsequences = 10 ;
+nsites =   20 ;
+mismatch = 0 0 2 4 7 5 5 5 5 4 2 4 2 ;
+segregating = 16 ;
+
+Here, "mean pairwise diff" is the average number of nucleotide (or
+restriction) site differences between pairs of sequences, "nsequences"
+is the number of sequences, "nsites" is the number of sites, and "seg-
+regating" is the number of these sites that were segregating (i.e. the
+number at which some variation occurred.  The mismatch distribu-
+tion is a vector of integers. The first entry is the number of pairs of
+individuals that differ by 0 sites, the second is the number that differ
+by 1 site, and so forth.
+
+
+
+                                 7
+
+   By default, these data are printed in the format that is needed
+by the next program to be considered, mmest (see below).  Several
+command-line switches are available for changing the format of the
+output. To get a list of these, type mmest --.
+
+
+
+2.2     Creating an input file for mmest
+
+
+The output of makemm is already in the right format. To save a copy
+of the output for further analysis, type mmest > dummy.mm. This cre-
+ates a new file called dummy.mm.  If you want to construct your own
+input file, you need to know that mmest ignores everything between
+the character "%" and the end of the line.  This allows you to put
+comments into your input files.
+   There is one minor irritant:  If you are analyzing sequence data,
+the effective number of sites is the number of sites in the data. But
+if you are analyzing restriction site data, the effective number of sites
+is twice the number of sites in the data.  (See Ewens [1] and Rogers
+and Harpending [9] for a discussion of this confusing fact.)  makemm
+is incapable of telling the difference.  Consequently, with restriction
+site data you must edit the output of makemm and double the value of
+nsites.
+   All assignment statements are of form
+
+  <label> = <values> ;
+
+where <label> is a name and <values> a blank-delimited list of one or
+more values. These values are usually numbers, but in some contexts
+(described later) they will be character strings.
+
+
+
+2.3     Estimating parameters with mmest
+
+
+The program mmest is used to estimate parameters from data.  To
+invoke it with the data in dummy.mm, type mmest dummy.mm.  This
+produces the following output:
+
+%                                         MMEST
+%                     (Estimation from Mismatch Distribution)
+%                                  by Alan R. Rogers
+%                                     Version 4-1
+%                                     12 Nov 1998
+%                             Type `mmest -- ' for help
+
+
+% Cmd line: mmest dummy.mm
+%Using histogram of length 13. Input histogram had length 13.
+InputFile = dummy.mm;
+Sampsize = 10;
+
+
+
+                                 8
+
+NSites = 20;
+Histogram = 0 0 2 4 7 5 5 5 5 4 2 4 2;
+
+
+%                           mean             var E[(x-mean)^3]
+   Cumulants =        6.62222        7.74617        5.65513 ;
+
+
+%        theta0     theta1        tau        MAE      Rghns        Seg
+Est=       1.06        Inf      5.562     0.1261    0.01679         16;
+
+
+%mmci ranges are specified by: start`val, end`val, increment
+%Edit the following to control mmci:
+RangeLog10Theta0 = 0 3 0.50 ;
+RangeGrowth = 0 3 1 ;
+RangeTau = 2 12 2 ;
+
+After the header, several lines of output echo the data that went into
+the analysis.  The next line provides the first three "cumulants" of
+the distribution:  the mean, the variance, and the average cube of
+x - ~x.  Then comes a line of estimates.  The estimates provided can
+be controlled by editing the top section of the header file mismatch.h
+and recompiling. As distributed, the estimates include:
+
+theta0  the 2-parameter method of moments estimator described by
+     Rogers (1995a).
+
+theta1  estimated (very roughly) as (1=F [0]) - 1, where F [0] is the
+     first entry of the empirical mismatch distribution [9]. DO NOT
+     PLACE ANY FAITH IN THIS ESTIMATOR; it provides only
+     a very rough indication of the magnitude of theta1.
+
+tau  the 2-parameter method of moments estimator described by Rogers
+     [6].
+
+MAE    Mean Absolute Error. The mean absolute difference between
+     the fitted curve and the empirical distribution.  The empirical
+     distribution is h=Sum h  where h is the histogram in the input
+     data. The fitted curve is calculated from equation 4 of Rogers
+     and Harpending [9].
+
+Rghns   Harpending's (1994) r statistic, a measure of roughness.
+
+Seg  The number of segregating sites, copied from the input.
+
+Following the estimates come several lines that will become important
+later, in the discussion of mmci.
+   To save a copy of the estimation output (under UNIX or DOS),
+type
+
+          mmest dummy.mm > csw.est
+
+This places the estimation output into a file called dummy.est.
+
+
+
+                                 9
+
+2.4     Constructing a confidence interval
+
+
+To construct a confidence interval, you will need the file dummy.est
+that you produced using mmest. In addition, you will need to describe
+your population's history by creating a file called pophist.ini. This
+latter file should look something like
+
+   %theta       M      tau         K
+   1000         0        2         3
+       1        10      Inf         1
+
+Here, each row describes a different "epoch" of population history,
+with the most recent epoch at the top, the earliest at the bottom.
+Your file can have as many epochs as you want.  The four colums
+are:
+
+  theta  =   2Nu, where N is the female population size (including
+             all subpopulations combined) and u the aggregate mu-
+             tation rate.
+
+     M   =   the number of migrants per generation between each
+             pair of subpopulations.
+
+     K   =   the number of subpopulations
+
+    tau  =   2ut, where t is the length of the epoch in generations.
+             tau measures the epoch's length in "mutational" time
+             units, which equal 1=(2 * u) generations.
+
+The initial value of tau (at the bottom) should be "Inf," to indicate
+that the initial epoch is infinite. See chapter 9 for further information.
+   The simplest way to construct a confidence interval is to type
+
+  mmci dummy.est > dummy.ci
+
+This invokes the program mmci, which will read csw.est and pophist.ini,
+construct a confidence interval, and place the result into file csw.ci.
+This uses the default settings, and will do 1000 iterations at each
+set of parameter values.  This will take awhile to execute.  In initial
+experiments, you may want to type something like
+
+  mmci -i100 dummy.est > dummy.ci
+
+which will generate a low-quality confidence interval more quickly.
+The -i flag tells mmci how many iterations to do at each set of pa-
+rameter values.
+   After looking at the resulting confidence interval, you will probably
+wish that mmci had looked a different range of parameter values. To
+specify your own range, you have to edit the file dummy.est, adding
+or modifying lines such as the following:
+
+
+                                10
+
+ RangeLog10Theta0 = -1.6666667 1.6666667   0.33333333 ;
+ RangeGrowth = 0 5   1 ;
+ RangeTau     = 1 7   1 ;
+
+The three lines specify ranges for the following variables:
+
+Log10 theta0   This is the log10 of the parameter theta0 that is dis-
+     cussed above.
+
+Growth  Equals log10(theta1=theta0), the log of the ratio of the new
+     population size to the old.
+
+Tau the time since the change in population size, on a mutational
+     time scale (see above)
+
+The three numbers in each line specify (1) the initial value, (2) the
+final value, and (3) the increment.  For example, the first line says
+that Log10Theta0 will range from -1.667 to 1.667, in increments of
+0.33. The last line says that tau will take values 1; 2; : :;:7.
+   Mmci does many thousands of simulations and takes a long time
+to finish. Before embarking on a full-scale run, there are some quick
+checks you can make to ensure that you have specified things correctly.
+First type
+
+  mmci -i0 dummy.est
+
+This tells mmci to simulate 0 data sets at each set of parameter values,
+i.e. to do nothing at all. This is useful for making sure that you have
+the parameter ranges right. Next, try
+
+  mmci -i10 dummy.est > dummy.ci
+
+This simulates 10 data sets at each set of parameter values and pro-
+duces a low-quality estimate of the confidence region. Plot the result
+using ci2txt, as explained below.  The plot may suggest that you
+need to examine a different part of the parameter space. If so, then
+edit the parameter ranges in your .est file and run mmci again. When
+you are satisfied with the parameter ranges, type
+
+  mmci > dummy.ci
+
+This will simulate 1000 data sets for each set of parameter values, and
+it may take a long time. If you are working on a slow machine, you
+may have to settle for a somewhat smaller analysis. Try -i250.
+   The output of mmci is a list of hypothesis tests.  This output is
+self-explanatory, but poring over it is a waste of time.  To find out
+what your confidence region looks like, you should plot it using one
+of the programs described in the next section.
+
+
+                                11
+
+2.5     Plotting a Confidence Interval
+
+
+There are two ways to make a graphical display of the output. Pro-
+gram ci2txt produces a low-quality character plot; program ci2ptx
+produces a high-quality plot using LATEX and PiCTeX  , two programs
+that may or may not be available on your system [5, 10]. LATEX and
+PiCTeX  are both available for free over the net, but learning to use
+them takes time. This tutorial will concentrate on ci2txt. For more
+information on ci2ptx, see chapter 4.
+   To graph the confidence region, type
+
+ci2txt dummy.ci
+
+This generates a series of graphs, one for each level of the growth
+parameter. The first of these looks like this:
+
+
+Definitions:
+ O : Reject at 1 percent significance level
+ . : Within 99 percent confidence region
+ * : Within 95 percent confidence region
+Panel 0: N1/N0 = 10^0:
+
+
+l            +-----------+
+o     3.00   _       O     _
+g     2.50   _       O     _
+      2.00   _       O     _
+t     1.50   _       O     _
+h     1.00   _       *     _
+e     0.50   _       *     _
+t     0.00   _       O     _
+a            +-----------+
+0
+                undefined
+
+This panel summarizes simulations for the case in which no growth
+occurred, so that theta0 = theta1. The vertical axis shows values of
+log10theta0. The horizontal axis is usually for tau, but it is undefined
+here because this panel is for the case in which no growth has occurred.
+Within the plot, each symbol indicates the result of a hypothesis test.
+Open circles "O" indicate hypotheses that have been rejected at the
+0.01 significance level, dots "."  indicate hypotheses that have been
+rejected at the 0.05 significance level, and asterisks "*" indicate hy-
+potheses that have not been rejected. The plot shown here indicates
+that we cannot reject the hypotheses that log10theta = 0:5 or that
+log10theta = 1. All other hypotheses involving a constant population
+size are rejected.
+
+
+
+                                12
+
+   The second panel in the output of ci2txt looks like
+
+
+Panel 1: N1/N0 = 10^1:
+
+
+l            +-----------+
+o     3.00   _O O O O O O_
+g     2.50   _O O O O O O_
+      2.00   _O O O O O O_
+t     1.50   _O O O O O O_
+h     1.00   _* * * . O O_
+e     0.50   _* * * * * O_
+t     0.00   _O * * * * *_
+a            +-----------+
+0                      1 1
+              2 4 6 8 0 2
+
+
+                       tau
+
+This panel summarizes hypothesis tests for cases in which theta1 is 10
+times as large as theta0 (and therefore N1 is 10 times as large as N0 ).
+Here, the horizontal axis indicates values of tau. As before, asterisks
+indicate the portion of the parameter space that is contained within
+the confidence region.
+                                13
+
+
+
+                Part  II
+
+
+Reference  Manual
+                       14
+
+
+
+
+Chapter  3
+
+
+Program:   ci2txt
+
+
+
+3.1     Purpose
+
+
+Plot a confidence region using character graphics
+
+
+
+3.2     Usage
+
+
+ci2txt [inputfile]
+By default, the program reads standard input.
+
+
+
+3.3     Description
+
+
+ci2txt reads an input file describing a confidence region, which must
+be in the format of the output produced by mmci, and draws a graph
+of the confidence region on standard output. The graph is produced
+using standard text characters.
+   The output consistes of several panels, one for each level of the
+growth parameter.  For example, if the input to mmci contained the
+line
+
+RangeGrowth = 0 3 1 ;
+
+then the four values of the growth parameter will be considered by
+mmci:  0, 1, 2, and 3.  Accordingly, there will be four panels in the
+output of ci2txt. The first panel look like this:
+
+
+                                15
+
+Definitions:
+ O : Reject at 1 percent significance level
+ . : Within 99 percent confidence region
+ * : Within 95 percent confidence region
+
+
+Panel 0: N1/N0 = 10^0:
+
+
+l            +-----------+
+o     3.00   _       O     _
+g     2.50   _       O     _
+      2.00   _       O     _
+t     1.50   _       O     _
+h     1.00   _       *     _
+e     0.50   _       *     _
+t     0.00   _       O     _
+a            +-----------+
+0
+                undefined
+
+This panel summarizes simulations for the case in which no growth
+occurred, so that theta0 = theta1. The vertical axis shows values of
+log10theta0. The horizontal axis is usually for tau, but it is undefined
+here because this panel is for the case in which no growth has occurred.
+Within the plot, each symbol indicates the result of a hypothesis test.
+Open circles "O" indicate hypotheses that have been rejected at the
+0.01 significance level, dots "."  indicate hypotheses that have been
+rejected at the 0.05 significance level, and asterisks "*" indicate hy-
+potheses that have not been rejected. The plot shown here indicates
+that we cannot reject the hypotheses that log10theta = 0:5 or that
+log10theta = 1. All other hypotheses involving a constant population
+size are rejected.
+   The second panel in the output of ci2txt looks like
+                                16
+
+Panel 1: N1/N0 = 10^1:
+
+
+l            +-----------+
+o     3.00   _O O O O O O_
+g     2.50   _O O O O O O_
+      2.00   _O O O O O O_
+t     1.50   _O O O O O O_
+h     1.00   _* * * . O O_
+e     0.50   _* * * * * O_
+t     0.00   _O * * * * *_
+a            +-----------+
+0                      1 1
+              2 4 6 8 0 2
+
+
+                       tau
+
+                                17
+
+
+
+
+Chapter  4
+
+
+Program:   ci2ptx
+
+
+
+4.1     Purpose
+
+
+Plot a confidence region using PiCTeX  graphics
+
+
+
+4.2     Usage
+
+
+ci2ptx [options] [inputfile]
+where options may include:
+
+-h<number>    Set plot height to <number> inches.
+
+-w<number>    Set plot width to <number> inches.
+
+By default, the program reads standard input.
+
+
+
+4.3     Description
+
+
+ci2ptx reads an input file describing a confidence region, which must
+be in the format of the output produced by mmci, and writes a se-
+ries of PiCTeX  commands to the standard output. These commands
+generate a graphical display of the confidence region when processed
+by the text-formatting program LATEX [5] together with the PiCTeX
+macros [10].  These are both available from the address listed in the
+bibliography.
+   To produce a graphical display, proceed as follows:
+
+   1.Execute the command
+
+
+        ci2ptx csw.ci > figxxx.tex
+
+
+     to place PiCTeX  code into the file figxxx.tex.
+
+
+
+                                18
+
+   2.Copy the file mkfig.tex from the directory that contains the
+     mismatch source code into your current directory. mkfig.tex is
+     a very brief file that tells LATEX to read in the file figxxx.tex,
+     which you just created.
+
+   3.Make sure that your current directory contains a file called
+     mkfig.tex containing the following:
+
+
+     % -*-latex-*-
+     "documentclass[]-article"
+     "usepackage-pictex"
+     "begin-document"
+     "input-figxxx"        %% Edit this line to match your filename
+     "end-document"
+
+
+     If you change the name of figxxx.tex, you must edit mkfig.tex
+     to reflect this change.
+
+   4.Type latex mkfig to run LATEX.  This produces a file called
+     mkfig.dvi.
+
+   5.To look at the resulting plot on your screen, try typing xdvi mkfig
+     if you are working under X-windows. If this doesn't work, or if
+     you are working in some other environment, ask your local com-
+     puter guru how to preview the ".dvi" files that are produced by
+     TEX.
+
+   6.On my system, the next step is to type dvips mkfig.  This is
+     really two steps rolled into one. First, dvips translates the .dvi
+     format into the format that my printer understands.  Second,
+     it passes the translation to the printer.  This may require two
+     steps on your system.
+
+
+
+4.3.1    Customizing the figure
+
+If you don't like the way the figure looks, there are two things you
+can do.
+
+
+Customizing with command line arguments
+
+To make the individual plots 0.75 by 0.75 inches, use the following
+command:
+
+  ci2ptx -w0.75 -h0.75 csw.ci > figxxx.tex
+
+
+                                19
+
+Editing the PiCTeX    file
+
+You can also change the way the figure looks by editing the PiCTeX
+code in figxxx.tex. For example, the lines that read
+
+%% Use the following to hide the 1% region
+%"def"99pct-"reject"
+
+provide a means of making the 99 percent confidence region show on
+the graph. All you have to do is to remove the "%" from the second
+of these lines. The lines that read
+
+%% Definitions:
+"def"accept--$"bullet$""
+"def"99pct--$"cdot$""
+"def"reject--"footnotesize$"circ$""
+
+provide a means of changing the symbols that are used to represent
+points inside and outside of the confidence region. Change these def-
+initions to whatever suits you.
+
+
+
+                                20
+
+
+
+
+Chapter  5
+
+
+Program:   mmci
+
+
+
+5.1     Purpose
+
+
+Estimate a confidence region.
+
+
+
+5.2     Usage
+
+
+mmci [options] inputfile
+where options may include:
+
+-g<x>  Set gamma shape parameter to <x> Default=1.000000
+
+-i<x>  Set iterations to <x>. Default=1000
+
+-l<x>  Set length of mismatch distribution to <x>.  Default=as in
+     input
+
+-mi mutation model = infinite sites
+
+-mf mutation model = finite sites w/ equal rates
+
+-mg mutation model = finite sites w/ gamma rates
+
+-ms mutation model = stepwise
+
+-r Reset gamma-model mutation rates each time? Default=NO
+
+-v Toggle verbose mode Default=YES
+
+See section 9.3 for a description of mutational models.
+
+
+
+                                21
+
+5.3     Description
+
+
+mmci considers a large number of population histories. At each history,
+it uses computer simulations (see ch. 9) to perform a significance test.
+The confidence region consists of the union of histories that cannot
+be rejected.
+
+
+
+5.3.1    Testing a population history
+
+The following steps are performed for each population history:
+
+   1.Calculate the theoretical mismatch distribution from the his-
+     tory.
+
+   2.Calculate the Mean Absolute Error (MAE  ) between the ob-
+     served mismatch the theoretical mismatch distributions.  Call
+     this the "observed MAE  ."
+
+   3.Simulate a large number of data sets using this same history, as
+     described in chapter 9.
+
+   4.For each simulated data set, calculate the MAE   between the
+     simulated mismatch distribution and the theoretical mismatch
+     distribution. Call these "simulated MAE  s."
+
+   5.Reject the history at the 0.05 significance level if the observed
+     MAE   is greater than 95 percent of the simulated MAE  s.
+
+At present,  the program ignores population structure in calculat-
+ing the theoretical distribution.  This reflects my original purpose
+in adding population structure to the program_I wanted to ask how
+much error is introduced when the real population is structured, but
+the analysis assumes global random mating [8].  The confidence re-
+gions are still valid but could probably be made smaller (at least in
+structured populations) by incorporating population structure into
+the analysis.  It is not easy to incorporate population structure be-
+cause we have no simple formula, analogous to the one in Rogers and
+Harpending [9], for the theoretical mismatch distribution of a subdi-
+vided population.
+
+
+
+5.3.2    Models of mutation
+
+Several models of mutation are available: infinite sites, finite sites with
+equal rates, finite sites with gamma-distributed rates, and stepwise.
+These are described in chapter 9. The choice between them is made
+by command-line switches, as described in section 5.2.
+
+
+
+                                22
+
+5.4     Input
+
+
+There are three sorts of input to worry about.
+
+
+
+5.4.1    Command line arguments
+
+The operation of mmci can be controlled through a variety of command
+line arguments, as summarized in section 5.2 above.
+
+
+
+5.4.2    The primary input file
+
+The primary input file, which must be specified on the command
+line, has a format just like the output file produced by mmest.  The
+distribution contains a file that was generated by applying mmest to
+the Cann-Stoneking-Wilson data in file csw.mm.  This file is called
+csw.est and looks like this:
+
+%                                         MMEST
+%                     (Estimation from Mismatch Distribution)
+%                                  by Alan R. Rogers
+%                                     Version 4-2
+%                                     16 Nov 1998
+%                             Type `mmest -- ' for help
+
+
+% Cmd line: mmest csw.mm
+% Using histogram of length 31. Input histogram had length 31.
+InputFile = csw.mm;
+NSequences = 147;
+NSites = 3000;
+Mismatch = 28 49 126 245 402 640 874 1178 1245 1119 1084 874 748 619
+  451 336 217 150 87 42 42 42 21 21 21 21 14 14 7 7 7;
+
+
+%                           mean             var E[(x-mean)^3]
+   Cumulants =         9.4706        16.2234        60.3741 ;
+
+
+%        theta0     theta1        tau        MAE      Rghns        Seg
+Est=      2.599      382.2      6.872   0.002538   0.003594        195;
+
+
+% mmci ranges are specified by: start`val, end`val, increment
+% Edit the following to control mmci:
+RangeLog10Theta0 = 0 3 0.50 ;
+RangeGrowth = 0 3 1 ;
+RangeTau = 2 12 2 ;
+
+When mmci reads this file, it treats the % as a comment delimiter,
+ignoring everything from the % to the end of the line. All the other
+lines are in the form of an assignment statement:
+
+
+
+                                23
+
+  <label> = <values> ;
+
+where <label> is a name and <values> a blank-delimited list of one
+or more values. The meaning of all this is explained in chapter  7.
+   The last section of the input file above is used to control the pop-
+ulation history parameters that are considered. Although the history
+may have many parameters, only 3 of these are varied systematically
+by mmci. To vary the others, you have to run the program more than
+once, changing the pophist.ini file before each run.  The variable
+parameters are: follows:
+
+theta1  the value of theta in the most recent epoch
+
+
+
+theta0  the value of theta in the preceding epoch
+
+
+
+tau  the length of the most recent epoch in mutational time units
+
+   To govern the behavior of the three variable parameters, you must
+specify three range variables: RangeLog10Theta0, RangeGrowth, and
+RangeTau. Here, "Growth" is the common log of theta1=theta0. Each
+range variable is specified by a statement of form
+
+         Range = start-value end-value increment ;
+
+For example,
+
+RangeLog10Theta0 = 0 2 0.5 ;
+
+tells mmci that log10thetaa should range from 0 through 2 in incre-
+ments of 0.5.
+
+
+
+5.4.3    The population history file
+
+The pophist.ini file is described in detail in section 9.1.  The dis-
+cussion here will cover only the peculiarities in the way mmci treats
+this file.
+   Suppose that my pophist.ini file looked like this:
+
+%theta       M        tau         K
+1000         0        2            3
+0.1           0        0.3         1
+100           10       Inf         1
+
+mmci would pay no attention to the values theta[2] = 0:1, theta[3] =
+1000, and tau[3] = 2. Instead, these values would be overridden by the
+ranges specified in the input file. The rest of pophist.ini, however,
+would be used in the simulations.
+                                24
+
+5.5     Output
+
+
+To produce some sample output, I used the values of the preceding
+examples to set the range parameters in the file csw.est and the
+history parameters in the file pophist.ini and then executed mmci
+by typing
+
+  mmci csw.est > csw.ci
+
+This places the primary output of mmci into the file csw.ci. However,
+mmci continues to write messages to your screen so that you can tell
+how it is progressing. This is important because one can easily launch
+mmci into a run that would take months to complete.  You need a
+way of estimating the time that will required.  After mmci had been
+running for a few minutes, my screen looked like this:
+
+[rogers@willow]"$ mmci csw.est > csw.ci
+
+
+Reading history from file pophist.ini
+% tau values: 0.300000 2.000000 5.000000 6.000000
+% theta values: 0.1 1 10 100 1000 10000 100000
+14548 bytes allocated to stack 1
+Doing 14000 iterations in all
+progress: 36.20%
+
+The bottom line is updated after every simulation and makes it easy
+to estimate the time that the whole job will take. On my computer,
+it took 17 s for mmci to complete 1 percent of the job, which implies
+that the whole job will take about 28 minutes.  This is pretty fast,
+and reflects the speed of the infinite sites model of mutation.  The
+same experiment with the Gamma mutational model (mmci -mg ...)
+would take about two hours. If your data include lots of subjects and
+lots of sites and your range specification calls for simulations at lots
+of parameter values, you may find that your runs require weeks of
+computer time.
+   mmci's primary output file starts by echoing the data that went
+into it:
+
+%                                          MMCI
+%                (Confidence Interval for Mismatch Distributions)
+%                                  by Alan R. Rogers
+%                                     Version 4-2
+%                                     16 Nov 1998
+%                              Type `mmci -- ' for help
+
+
+%      theta           mn         tau            K
+% 1000.0000      0.0000     70.0000            1
+%    10.0000      0.0000         Inf            1
+
+
+
+                                25
+
+
+% Using histogram of length 31. Input histogram had length 31.
+%InputFile = csw.mm;
+%Iterations = 1000;
+% total sampsize=147 subdivisions=1
+% subdivision sizes: 147
+%Sampsize = 147;
+% Mutation model = infinite sites
+% Tests use: MAE
+% Observed values: MAE=0.002538;
+RangeLog10Theta0 = 0.000000 3.000000 0.500000 ;
+RangeGrowth = 0.000000 3.000000 1.000000 ;
+RangeTau = 2.000000 12.000000 2.000000 ;
+
+I hope that this material is self explanatory.
+   After this introductory section comes the confidence region. This
+is presented as a series of tests, one on each line:
+
+%%%%%%%%%%%%%%%Confidence Interval%%%%%%%%%%%%%%%
+
+
+% Begin figure 1
+     Growth =        0.00000 ;
+%                          tau log10[theta0]           p-val
+       Test =      5.0000000      0.0000000      0.0000000 ;
+       Test =      5.0000000      2.0000000      0.0000000 ;
+
+
+% Begin figure 2
+     Growth =        1.00000 ;
+%                          tau log10[theta0]           p-val
+       Test =      5.0000000      0.0000000      0.0000000 ;
+       Test =      5.0000000      2.0000000      0.0000000 ;
+       Test =      6.0000000      0.0000000      0.0030000 ;
+       Test =      6.0000000      2.0000000      0.0000000 ;
+
+and so on. Each section begins with a Growth value, which is equal to
+log10(theta1=theta0). Within each section is a series of lines labeled
+Test, each of which shows the outcome of a particular test. The first
+test in this output considers the case in which tau = 5, log10theta0 =
+0, and log10(theta1=theta0) = 0. For this test, the estimates p-value is
+0, which means that all of the simulated MAE  s were smaller than the
+observed MAE   (see section 5.3.1). The 95 percent confidence region
+consists of the union of the population histories for which the p-value
+is at least 0.05. In the output above, none of the lines shown would
+be inside the confidence region.
+   To make this output useful, we need some means of turning it
+into a graphical display. For this purpose, see the documentation of
+ci2txt and ci2ptx.
+
+
+
+                                26
+
+
+
+
+Chapter  6
+
+
+Program:   mmgen
+
+
+
+6.1     Purpose
+
+
+General purpose simulation program
+
+
+
+6.2     Usage
+
+
+mmgen [options]
+where options may include:
+
+-c Generate cumulants? Default=NO
+
+-C Print cumulants? Default=NO
+
+-d Calc tree depth? Default=NO
+
+-D Calc mean pairwise diff? Default=NO
+
+-g<x>   Set gamma shape parameter to <x> Default=1.000000
+
+-i<x>   Set iterations to <x>. Default=1
+
+-l<x>   Set length of mismatch distribution to <x>. Default=25
+
+-mi mutation model = infinite sites
+
+-mf mutation model = finite sites w/ equal rates
+
+-mg mutation model = finite sites w/ gamma rates
+
+-ms mutation model = stepwise
+
+-n<x>   Set sample size to <x>. Default=10
+
+-pd Print data? Default=NO
+                                27
+
+-ph Print histograms? Default=NO
+
+-pp Plot results? Default=NO
+
+-ps Print segregating sites? Default=NO
+
+-q Calc quantiles? Default=NO
+
+-r Reset gamma-model mutation rates each time? Default=NO
+
+-s<x>   Set # of sites to <x> (finite sites only) Default=100
+
+-S Do segregating sites? Default=NO
+
+-t Calc theoretical distribution. Default=NO
+
+-v Verbose mode? Default=NO
+
+See section 9.3 for a description of mutational models.
+
+
+
+6.3     Description
+
+
+mmgen runs simulations and tabulates the results in a bewildering va-
+riety of ways.  It uses a population history defined, as usual, in the
+pophist.ini file. Unlike mmci, mmgen considers only a single popula-
+tion history during any given run.  See chapter 9 for an explanation
+of the simulations that are performed.
+
+
+
+6.4     Bugs
+
+
+I have not written a decent manual page for this program.  You are
+on your own.
+
+
+
+                                28
+
+
+
+
+Chapter  7
+
+
+Program:   mmest
+
+
+
+7.1     Purpose
+
+
+Estimates parameters from mismatch data.
+
+
+
+7.2     Usage
+
+
+mmest [options] inputfile
+where options may include:
+
+ -l<x>  Set length of mismatch distribution to <x>.  Default:  as in
+     input.
+
+
+
+7.3     Input
+
+
+Data are read from a file, which must be specified on the command
+line. The input file should look like:
+
+% Source: Cann, RL, Stoneking, M, & Wilson, A. 1987. "Mitochondrial DNA
+% and human evolution". Nature 325(1): 31-36.
+segregating = 195;    %Polymorphic sites
+nsites = 3000 ;       %Number of sites assayed
+sampsize=147;         %Number of individuals in sample
+histogram = 28 49 126 245 402 640 874 1178 1245 1119 1084 874 748 619
+451 336 217 150 87 42 42 42 21 21 21 21 14 14 7 7 7 ;
+
+Comments begin with the % character. Assignment statements are of
+form
+
+  <label> = <values> ;
+
+
+
+                                29
+
+where <label> is a name and <values> a blank-delimited list of one or
+more values.  The input file must specify all of the quantities shown
+in the example above.  histogram is the mismatch distribution in
+integer format.  In other words, it is a vector whose first entry gives
+the number of pairs differing by 0 sites, whose second entry gives the
+number differing by 1 site, and so forth. By convention, mmest's input
+files have suffix mm. For example, the input file shown above is called
+csw.mm in the Mismatch distribution.
+
+
+
+7.4     Output
+
+
+is self explanatory and includes estimates of:
+
+theta0  the 2-parameter method of moments estimator described by
+     Rogers [6].
+
+theta1  estimated (very roughly) as (1=F [0]) - 1, where F [0] is the
+     first entry of the empirical mismatch distribution [9]. DO NOT
+     PLACE ANY FAITH IN THIS ESTIMATOR; it provides only
+     a very rough indication of the magnitude of `1.
+
+tau  the 2-parameter method of moments estimator described by Rogers
+     [6].
+
+MAE    Mean Absolute Error. The mean absolute difference between
+     the fitted curve and the empirical distribution.  The empirical
+     distribution is h=Sum h  where h is the histogram in the input
+     data. The fitted curve is calculated from equation 4 of Rogers
+     and Harpending [9].
+
+Rghns   Harpending's [2] r statistic, a measure of roughness.
+
+Seg  The number of segregating sites, copied from the input.
+                                30
+
+
+
+
+Chapter  8
+
+
+Program:   normdist
+
+
+
+8.1     Purpose
+
+
+Normalize (or un-normalize) mismatch distributions
+
+
+
+8.2     Usage
+
+
+normdist [options] inputfile
+where options may include:
+
+-r<sampsize>    Invert the usual operation? Default=NO
+
+-2 Two-column output? Default=NO
+
+
+
+8.3     Description
+
+
+
+8.4     Normalizing Mismatch Distributions
+
+
+The programs in this package demand that the mismatch distribution
+be a list of integers, telling the number of pairs of individuals who
+differ by i sites, where i = 0; 1; : :.: In graphing such distributions,
+on the other hand, it is usually better to normalize the distribution
+so that it sums to unity. The normdist program is provided to sim-
+plify the tasks of (a) normalizing distributions, and (b) converting
+normalizing distributions back to integer format.
+   To normalize a distribution, type
+
+  normdist filename
+
+where filename is the name of a file containing a mismatch distri-
+bution as a simple list of integers. The program will type out a nor-
+malized distribution.  To get the distribution in two-column format,
+type
+
+
+
+                                31
+
+  normdist -2 filename
+
+If your distribution is already normalized, you may wish to convert it
+back into integer format. To do this, you must know the sample size.
+Given this information, the reverse transformation is done by typing
+
+  normdist -r<N> filename
+
+   where <N> represents the sample size.
+
+                                32
+
+
+
+
+Chapter  9
+
+
+Simulations
+
+
+This chapter describes the algorithm used in simulations, a variant
+of the geographically structured coalescent algorithm described by
+Hudson [3].
+
+
+
+9.1     Describing a population history
+
+
+Before performing a simulation, you must first describe your assump-
+tions about the population's history. Population histories may be sim-
+ple or complex and are described by creating a file called pophist.ini,
+which must reside in the current directory at the time a program is
+invoked.
+   I divide the past into an arbitrary number of epochs, within which
+parameter values are constant.  Each epoch is described by four pa-
+rameters: theta, M, tau, and K, where
+
+  theta  =   2Nu, where N is the female population size (including
+             all subpopulations combined) and u the aggregate mu-
+             tation rate (i.e.  the sum of nucleotide mutation rates
+             over the genomic region under study).  See Rogers &
+             Harpending [9] for further discussion of u.
+
+     M   =   the number of migrants per generation between each
+             pair of subpopulations (also equal to Nm where m is
+             the migration rate)
+
+    tau  =   2ut, where t is the length of the epoch in generations.
+             tau measures the epoch's length in "mutational" time
+             units, which equal 1=(2 * u) generations. When time is
+             measured this way, there is no need to specify a mu-
+             tation rate.  A pair of individuals whose last common
+             ancestor lived 3 units of mutational time ago will be
+             separated (on average) by 3 mutations.
+                                33
+
+     K   =   the number of subpopulations
+
+The structure of the file pophist.ini is very simple: Each row cor-
+responds to a different epoch, with the most recent epoch at the top.
+Each row contains four numbers, the values of theta, M, tau, and
+K (in that order). The earliest epoch (in the bottom row) is always
+infinite in length.  A pophist.ini file with three epochs might look
+like this:
+
+   %theta M    tau    K
+     100    1    7      3
+     1      0    0.001 1
+     50     0.5 Inf    2
+
+The input routine interprets everything between "%" and the end of
+the line as a comment, a facility that I have used here to label the
+columns.  The second line says that during the most recent epoch,
+theta = 100 (a large population), there were M  = 1 migrants per
+generation between each pair of groups, the epoch lasted o = 7 units
+of mutational time, and there were K = 3 groups.
+   The third line refers to the epoch that ended 7 units of time ago,
+and lasted only 0.001 units. Thus, this epoch was very brief. During
+this epoch, the population was small (theta = 1) and contained only
+a single group (K = 1). The mutation rate is specified as M = 0, but
+this has no effect since there is only one group.
+   Line 4 refers to the initial epoch, during which the population was
+large (theta = 50) and had two groups (K = 2), which exchanged
+M = 0:5 migrants per generation.  This epoch has to be infinite in
+length. To make this clear, you should place "Inf" into the bottom row
+of the tau column. If you place some other non-numeric string there,
+the program will abort with an error. A numeric value will generate
+a warning message and then treat the entry as infinite anyway.
+   In summary, the example pophist.ini file describes a population
+that was initially large, and divided into two groups connected by a
+moderate level of migration. The population underwent a bottleneck
+during which the population was small and had only a single group.
+Following the bottleneck, the population grew to twice its original size
+and split into three groups.
+   Reductions in group numbers are accomplished by allowing ran-
+domly chosen groups to go extinct rather than by merging them.
+
+
+
+9.2     Generating a genealogy
+
+
+The algorithm begins with the last epoch, which I denote as epoch
+L. The n individuals of the sample are at first divided evenly among
+
+
+                                34
+
+the K[L] groups of epoch L. Thus, the algorithm requires that n be
+evenly divisible by K[L].1
+   As the algorithm moves backward into the past, two types of event
+occur. Migrations occur when an individual moves from one group to
+another, and "coalescent events" occur when two individuals have a
+common ancestor and therefore coalesce to become a single individ-
+ual.  The algorithm continues until only one individual is left.  The
+mathematical details are summarized in section 9.4.
+
+
+
+9.3     Models of mutation
+
+
+The number of mutations along each branch is a Poisson random
+variable with parameter ut, where u is the mutation rate and t the
+length of the branch in generations [4].  In mutational time, branch
+lengths equal tau   2ut and the Poisson distribution has parameter
+tau=2.  Since the intervals of the population history are specified in
+mutational time, there is no need to specify a mutation rate.
+   The number of substitutions need not equal the number of muta-
+tions, because mutations may strike the same site more than once. To
+determine the number of substitutions, the program must make some
+assumption about the process of mutation.  The following models of
+mutation are available.
+
+
+
+9.3.1    Model of infinite sites
+
+The model of infinite sites assumes that no site can mutate more than
+once. This assumption would follow if one had an infinite number of
+sites, each with an infinetisimal mutation rate (hence the name). No
+one takes this to be an accurate description of any real mutational
+process.  It is used because (1) it makes the analysis easy and the
+computer program fast, and because (2) it often provides a good ap-
+proximation to more realistic models of mutation. It does much better
+at approximating the mismatch distribution and the things that can
+be calculated from it (mean, variance, etc.)  than at approximating
+the number of segregating sites [7]. It is the default mutational model
+in the programs that do simulations.
+
+
+
+9.3.2    Model of finite sites with equal rates
+
+This model takes the number of sites to be finite but assumes that all
+sites mutate at the same rate. This model is invoked by the command
+line argument -mf.
+___________________________1
+    The allocation of individuals among groups in the simulation should match
+that in the data under study. Thus, the allocation used here is most appropriate
+when the real data include samples of equal size, drawn from several groups.
+                                35
+
+9.3.3    Model of finite sites with Gamma-distributed
+
+         rates
+
+The number of sites is finite, and the mutation rate at each site is
+drawn independently from a gamma distribution. The gamma distri-
+bution has two parameters, a scale parameter b and a shape parameter
+c.  The mutational time scale absorbs one of these (b), but it is still
+necessary to specify c.  This can be done on the command line by
+specifying, say, -g0.2, to set c = 0:2. By default, c = 1.
+   Some statistics, such as the number of segregating sites, are very
+sensitive to the mutational model that is assumed. This is bad, since
+we are not able to specify the mutational process in any great detail.
+Fortunately, the mismatch distribution is remarkably insensitive to
+the mutational model. With intraspecific human data, I get essentially
+the same confidence region from all three models provided that c >
+0:01.  Fortunately, the number of segregating sites in the data allow
+us to reject the hypothesis that c < 0:05, placing us firmly in the
+region where the three mutational models all give the same confidence
+regions. For interspecific comparisons, mutation models will become
+more important.
+
+
+
+9.4     Mathematical details of the coalescent
+
+        algorithm
+
+
+The hazard h at time tau is defined so that h dtau is the probability
+that an event of either type will occur between tau and tau + dtau,
+where tau measures mutational time looking backwards into the past.
+The hazard depends on prevailing values of the population history
+parameters, on the number of individuals, and on how these are dis-
+tributed among groups. At any givenPtime, let s[j] denote the number
+of individuals withinPgroup j, S =   j s[j] (the total number of in-
+dividuals), and R      js[j]2 (the sum of these numbers squared).
+Then the hazard of an event is2
+
+
+                   h = [SM[i] + (R - S)=2]=fl[i]              (9.1)
+___________________________
+2
+    Let m denote the migration rate per generation, g the group size,
+and M = mg. The hazard per generation is
+              X
+        h* = Sum [s[j]m + s[j](s[j] - 1)/(2g)] = (1/g)[SM + (R - S)/2]
+              j
+
+The cumulative hazard in t generations is
+               2ut                    tau
+        h* t = ---[SM + (R - S)/2] = ----- [SM + (R - S)/2],
+               2ug                   gamma
+
+where tau = 2ut and gamma = 2ug. Equation 9.1 follows from the
+observation that, by definition, the hazard h in mutational time obeys
+h tau = h*t. 
+
+
+
+                                36
+
+where gamma[i] =  theta[i]/K[i] and measures group size in epoch i.
+   The algorithm first sets S = n, R = K[L](n/K[L])^2, and then sets
+h using these values together with the parameters of the final epoch,
+L.  It then enters a loop that is executed repeatedly.  I describe the
+steps of this loop briefly before describing each step in detail.
+
+
+Overview of coalescent loop
+
+   1.Find the time of the next event, changing epochs and recalcu-
+     lating h as necessary.
+
+   2.Determine whether the next event is a migration or a coalescent
+     event.
+
+   3.Carry out the next event.
+
+These steps are repeated until S = 1. Mutations are then added along
+each branch.
+
+
+Step 1  Let T[i] denote the amount of time that we have already
+traveled (backwards) into epoch i. To find the time of the next event,
+draw a random number x from an exponential distribution whose
+parameter equals unity.  In a constant world, the time of the next
+event would be T[i] + x/h.  If this time lies within epoch i (i.e. if
+T [i] + x/h < tau[i]), then we have found the time of the next event.
+Otherwise, change epochs as follows:
+
+   a Subtract off the portion of x that is "used up" by epoch i, i.e.
+     subtract h . (tau[i] - T [i]) from the value of x.
+
+   b Reset population history parameters to those of epoch i - 1 and
+     set T [i] to zero.  If K[i - 1] < K[i], join groups at random to
+     diminish the number of groups. If K[i - 1] > K[i], increase the
+     number of groups, but allocate no individuals to the new groups.
+     Individuals will enter the new groups only through migration.3
+
+   c Reset R and h. Subtract 1 from the value of i.
+
+This process repeats until T [i] + x=h < tau[i].
+
+
+Step 2  Once the time of the next event has been established, step 2
+classifies the event as either a migration or a coalescent event. Equa-
+tion 9.1 implies that the event is a migration with probability
+
+
+                     P = ______SM[i]________
+                         SM[i] + (R - S)/2
+
+___________________________
+ 3
+    The assumption for K[i - 1] > K[i] implies that, in forward time,
+the number of groups has decreased because some groups have died
+out. Other assumptions are possible and the present one was chosen
+only for computational convenience. 
+
+
+
+                                37
+
+Thus, step 2 calls the next event a migration with probability P and
+a coalescent event with probability 1 - P .
+
+
+Step 3  If the next event is a migration, then move a random indi-
+vidual into a new, randomly chosen group. Then reset R and h.
+   Otherwise, we have a coalescent event and the procedure is as
+follows. First choose a group at random, weighting each group by the
+number of pairs of individuals within it. Then choose a random pair of
+individuals from within the chosen group, replace the two individuals
+with a single individual (their common ancestor), reduce S by 1, and
+reset R and h.
+                                38
+
+
+
+
+Bibliography
+
+
+ [1]Warren J. Ewens. The role of models in the analysis of molecu-
+    lar genetic data, with particular reference to restriction fragment
+    data. In Bruce S. Weir, editor, Statistical Analysis of DNA Se-
+    quence Data, pages 45-73. Marcel Dekker, New York, 1983.
+
+ [2]Henry Harpending. Signature of ancient population growth in a
+    low resolution mitochondrial DNA mismatch distribution.  Hu-
+    man Biology, 66(4):591-600, 1994.
+
+ [3]Richard R. Hudson.  Gene genealogies and the coalescent pro-
+    cess. In Douglas Futuyma and Janis Antonovics, editors, Oxford
+    Surveys in Evolutionary Biology, volume 7, pages 1-44. Oxford
+    University Press, Oxford, 1990.
+
+ [4]Motoo Kimura. Theoretical foundation of population genetics at
+    the molecular level.  Theoretical Population Biology, 2:174-208,
+    1971.
+
+ [5]Leslie  Lamport.   LATEX:   A  Document  Preparation  System.
+    Addison-Wesley, Menlo Park, CA, 2nd edition, 1994.
+
+ [6]Alan R. Rogers.  Genetic evidence for a Pleistocene population
+    explosion. Evolution, 49(4):608-615, August 1995.
+
+ [7]Alan R. Rogers.  Mitochondrial mismatch analysis is insensi-
+    tive to the mutational process. Molecular Biology and Evolution,
+    13(7):895-902, 1996.
+
+ [8]Alan R. Rogers. Population structure and modern human origins.
+    In Peter J. Donnelly and Simon Tavar'e, editors, Progress in Pop-
+    ulation Genetics and Human Evolution, pages 55-79. Springer-
+    Verlag, New York, 1997.
+
+ [9]Alan R. Rogers and Henry C. Harpending.  Population growth
+    makes waves in the distribution of pairwise genetic differences.
+    Molecular Biology and Evolution, 9:552-569, 1992.
+
+
+                                39
+
+[10]Michael  J.  Wichura.   The  PiCTeX  Manual.   Number  6  in
+    TEXniques:  Publications for the TEX Community. TEX Users
+    Group, P.O. Box 9506, Providence, R.I. 02940, USA, 1987.
+
+
+                                40

@@ -1,0 +1,368 @@
+% -*-latex-*-
+\chapter{Tutorial\label{ch.tutorial}}
+
+The package can be used either to generate simulated data sets for
+given parameter values (see documentation of \io{mmgen} below) or to
+analyze data in the form of a ``mismatch distribution''.  This
+tutorial concerns the latter problem.
+
+\section{Generating a mismatch distribution from sequence data}
+
+If you are beginning with sequence (or restriction site) data, the
+first step is to convert these into a mismatch distribution.  If your
+data are in (noninterleaved) PHYLIP format, the program \io{makemm} will
+do this for you.  This program reads sequence data such as that shown
+below: 
+\begin{verbatim}
+file: dummy.seq
+  10  20
+subject1  TGAAT TTGTC
+          CCCGC CCTCT
+subject2  TGAAT TTGTC
+          CCTAC ACCCT
+subject3  TAGAT CTGTC
+          TCTGA CCTCT
+subject4  TGAAT TTGTC
+          TCTGA CCTCT
+subject5  TGAAT TTGCC
+          ACCGC ACCCT
+subject6  AAGCT TCGTC
+          CTCAC GCTCT
+subject7  TGAAT TTGCC
+          CCCGC ACCTT
+subject8  TGACT TTGCC
+          CGCGC ACCCT
+subject9  TAGAT TTGTC
+          CCCGC GCTCC
+subject10 TGAAT TTGCC
+          CCCTC ACCTA
+\end{verbatim}
+The first line of this data tells the program that there are 10
+subjects, each with data at 20 sites.  The first 10 characters of the
+next line give the name of the 1st subject.  After the name, the
+program expects to find sequence data.  In reading sequence data, it
+ignores spaces, tabs, and linefeeds so that sequences can be spread
+across several lines or broken by vertical columns of whitespace.
+
+To run the program on the data in file \io{dummy.seq}, type
+\begin{verbatim}
+makemm dummy.seq
+\end{verbatim}
+or
+\begin{verbatim}
+makemm < dummy.seq
+\end{verbatim}
+
+The program writes the following result on the standard output:
+\begin{verbatim}
+%                                   makemm
+%                       (make a mismatch distribution)
+%                             by Alan R. Rogers
+%                                Version 4-1
+%                                12 Nov 1998
+%                         Type `makemm -- ' for help
+
+% Cmd line: makemm dummy.seq
+% pop  0 : dummy.seq
+% Results will include the reference sequence (line 1).
+
+% Population 0
+% 10 subjects 20 sites
+% mean pairwise diff = 6.622222.
+nsequences = 10 ; 
+nsites =  20 ;
+mismatch = 0 0 2 4 7 5 5 5 5 4 2 4 2 ;
+segregating = 16 ;
+\end{verbatim}
+Here, ``mean pairwise diff'' is the average number of nucleotide (or
+restriction) site differences between pairs of sequences,
+``nsequences'' is the number of sequences, ``nsites'' is the number of
+sites, and ``segregating'' is the number of these sites that were
+segregating (i.e.\ the number at which some variation occurred.  The
+mismatch distribution is a vector of integers.  The first entry is the
+number of pairs of individuals that differ by 0 sites, the second is
+the number that differ by 1 site, and so forth.
+
+By default, these data are printed in the format that is needed by the
+next program to be considered, \io{mmest} (see below).  Several
+command-line switches are available for changing the format of the
+output.  To get a list of these, type \io{mmest --}.
+
+\section{Creating an input file for \io{mmest}}
+
+The output of \io{makemm} is already in the right format.  To save a
+copy of the output for further analysis, type \io{mmest > dummy.mm}.
+This creates a new file called \io{dummy.mm}.  If you want to
+construct your own input file, you need to know that \io{mmest}
+ignores everything between the character ``\%'' and the end of the
+line.  This allows you to put comments into your input files.
+
+There is one minor irritant: If you are analyzing sequence data, the
+effective number of sites is the number of sites in the data.  But if
+you are analyzing restriction site data, the effective number of sites
+is \emph{twice} the number of sites in the data.  (See Ewens
+\cite{Ewens:RoleOfModels} and Rogers and Harpending
+\cite{Rogers:MBE-9-552} for a discussion of this confusing fact.)
+\io{makemm} is incapable of telling the difference.  Consequently,
+with restriction site data you must edit the output of \io{makemm} and
+double the value of \io{nsites}.
+
+All assignment statements are of form
+\begin{verbatim}
+  <label> = <values> ;
+\end{verbatim}
+where \verb@<label>@ is a name and \verb@<values>@ a blank-delimited
+list of one or more values.  These values are usually numbers, but in
+some contexts (described later) they will be character strings.
+
+\section{Estimating parameters with \io{mmest}}
+
+The program \io{mmest} is used to estimate parameters from data.  To
+invoke it with the data in \io{dummy.mm}, type \io{mmest dummy.mm}.
+This produces the following output:
+\begin{verbatim}
+%                                   MMEST
+%                  (Estimation from Mismatch Distribution)
+%                             by Alan R. Rogers
+%                                Version 4-1
+%                                12 Nov 1998
+%                         Type `mmest -- ' for help
+
+% Cmd line: mmest dummy.mm
+%Using histogram of length 13. Input histogram had length 13.
+InputFile = dummy.mm;
+Sampsize = 10;
+NSites = 20;
+Histogram = 0 0 2 4 7 5 5 5 5 4 2 4 2;
+
+%                       mean           var E[(x-mean)^3]
+   Cumulants =       6.62222       7.74617       5.65513 ;
+
+%       theta0    theta1       tau       MAE     Rghns       Seg
+Est=      1.06       Inf     5.562    0.1261   0.01679        16;
+
+%mmci ranges are specified by: start_val, end_val, increment
+%Edit the following to control mmci:
+RangeLog10Theta0 = 0 3 0.50 ;
+RangeGrowth = 0 3 1 ;
+RangeTau = 2 12 2 ;
+\end{verbatim}
+After the header, several lines of output echo the data that went into
+the analysis.  The next line provides the first three ``cumulants'' of
+the distribution: the mean, the variance, and the average cube of $x -
+\bar x$.  Then comes a line of estimates.  The estimates provided can
+be controlled by editing the top section of the header file
+\io{mismatch.h} and recompiling.  As distributed, the estimates
+include:
+\begin{description}
+\item[$\THETAa$]the 2-parameter method of moments estimator described by
+          Rogers (1995a).
+\item[$\THETAb$]estimated (very roughly) as $(1/F[0]) - 1$, where
+      $F[0]$ is the first entry of the empirical mismatch distribution
+      \cite{Rogers:MBE-9-552}. DO NOT PLACE ANY FAITH IN THIS
+          ESTIMATOR; it provides only a very rough indication of the 
+          magnitude of $\THETAb$.  
+\item[$\TAU$]the 2-parameter method of moments estimator described by
+          Rogers \cite{Rogers:E-49-608}.
+\item[$\MAE$] Mean Absolute Error.  The mean absolute difference
+      between the fitted curve and the empirical distribution.  The
+          empirical distribution is $h/\Sum{h}$ where $h$ is the histogram
+          in the input data.  The fitted curve is calculated from
+          equation~4 of Rogers and Harpending \cite{Rogers:MBE-9-552}. 
+\item[Rghns]Harpending's (1994) $r$ statistic, a measure of roughness.
+\item[Seg]The number of segregating sites, copied from the input.
+\end{description}
+Following the estimates come several lines that will become important
+later, in the discussion of \io{mmci}.
+
+To save a copy of the estimation output (under UNIX or DOS), type
+\begin{verbatim}
+         mmest dummy.mm > csw.est
+\end{verbatim}
+This places the estimation output into a file called \io{dummy.est}.
+
+\section{Constructing a confidence interval}
+
+To construct a confidence interval, you will need the file
+\io{dummy.est} that you produced using \io{mmest}.  In addition, you
+will need to describe your population's history by creating a file
+called \io{pophist.ini}.  This latter file should look something like
+\begin{verbatim}
+   %theta      M     tau        K
+   1000        0       2        3
+      1       10     Inf        1
+\end{verbatim}
+Here, each row describes a different ``epoch'' of population history,
+with the most recent epoch at the top, the earliest at the bottom.
+Your file can have as many epochs as you want.  The four colums are:
+\begin{definition}
+\item[$\THETA$]$2Nu$, where $N$ is the female population size
+      (including all subpopulations combined) and $u$ the aggregate
+      mutation rate.
+
+\item[$M$]the number of migrants per generation between each pair of  
+       subpopulations.
+
+\item[$K$]the number of subpopulations
+ 
+\item[$\TAU$]$2ut$, where $t$ is the length of the epoch in
+      generations.  $\TAU$ measures the epoch's length in
+      ``mutational'' time units, which equal $1/(2*u)$ generations.
+\end{definition}
+The initial value of \io{tau} (at the bottom) should be ``Inf,'' to
+indicate that the initial epoch is infinite.  See
+chapter~\ref{ch.simulate} for further information.
+
+The simplest way to construct a confidence interval is to type
+\begin{verbatim}
+  mmci dummy.est > dummy.ci
+\end{verbatim}
+This invokes the program \io{mmci}, which will read \io{csw.est} and
+\io{pophist.ini}, construct a confidence interval, and place the
+result into file \io{csw.ci}.  This uses the default settings, and
+will do 1000 iterations at each set of parameter values.  This will
+take awhile to execute.  In initial experiments, you may want to type
+something like
+\begin{verbatim}
+  mmci -i100 dummy.est > dummy.ci
+\end{verbatim}
+which will generate a low-quality confidence interval more quickly.
+The \io{-i} flag tells mmci how many iterations to do at each set of
+parameter values.
+
+After looking at the resulting confidence interval, you will probably
+wish that mmci had looked a different range of parameter values.  To
+specify your own range, you have to edit the file \io{dummy.est}, adding
+or modifying lines such as the following:
+\begin{verbatim}
+ RangeLog10Theta0 = -1.6666667 1.6666667  0.33333333 ;
+ RangeGrowth = 0 5  1 ;
+ RangeTau    = 1 7  1 ;
+\end{verbatim}
+The three lines specify ranges for the following variables:
+\begin{description}
+\item[\io{Log10 theta0}] This is the log10 of the parameter theta0 that is
+                 discussed above.
+
+\item[\io{Growth}] Equals $\CLog(\THETAb/\THETAa)$, the log of the
+      ratio of the new population size to the old.
+
+\item[\io{Tau}] the time since the change in population size, on a
+      mutational time scale (see above) 
+\end{description}
+The three numbers in each line specify (1)~the initial value, (2)~the
+final value, and (3)~the increment.  For example, the first line says
+that \io{Log10Theta0} will range from --1.667 to 1.667, in increments
+of 0.33.  The last line says that $\TAU$ will take values
+$1,2,\ldots,7$.
+
+\io{Mmci} does many thousands of simulations and takes a long time to
+finish.  Before embarking on a full-scale run, there are some quick
+checks you can make to ensure that you have specified things
+correctly.   First type
+\begin{verbatim}
+  mmci -i0 dummy.est 
+\end{verbatim}
+This tells mmci to simulate 0 data sets at each set of parameter
+values, i.e.\ to do nothing at all.  This is useful for making sure
+that you have the parameter ranges right.  Next, try
+\begin{verbatim}
+  mmci -i10 dummy.est > dummy.ci
+\end{verbatim}
+This simulates 10 data sets at each set of parameter values and
+produces a low-quality estimate of the confidence region.  Plot the
+result using \io{ci2txt}, as explained below.  The plot may suggest
+that you need to examine a different part of the parameter space.  If
+so, then edit the parameter ranges in your \io{.est} file and run
+\io{mmci} again.  When you are satisfied with the parameter ranges, type
+\begin{verbatim}
+  mmci > dummy.ci
+\end{verbatim}
+This will simulate 1000 data sets for each set of parameter values,
+and it may take a long time.  If you are working on a slow machine,
+you may have to settle for a somewhat smaller analysis.  Try
+\io{-i250}. 
+
+The output of \io{mmci} is a list of hypothesis tests.  This output is
+self-explanatory, but poring over it is a waste of time.  To find out
+what your confidence region looks like, you should plot it using one
+of the programs described in the next section.
+
+\section{Plotting a Confidence Interval}
+
+There are two ways to make a graphical display of the output.  Program
+\io{ci2txt} produces a low-quality character plot; program \io{ci2ptx}
+produces a high-quality plot using \LaTeX\ and \PiCTeX, two programs
+that may or may not be available on your system
+\cite{Lamport:LDP-94,Wichura:PM-87}.  \LaTeX\ and \PiCTeX\ are both
+available for free over the net, but learning to use them takes time.
+This tutorial will concentrate on \io{ci2txt}.  For more information
+on \io{ci2ptx}, see chapter~\ref{ch.ci2ptx}.
+
+To graph the confidence region, type 
+\begin{verbatim}
+ci2txt dummy.ci
+\end{verbatim}
+This generates a series of graphs, one for each level of the growth
+parameter.  The first of these looks like this:
+\begin{alltt}
+\begin{minipage}{\textwidth}
+Definitions:
+ O : Reject at 1 percent significance level
+ . : Within 99 percent confidence region
+ * : Within 95 percent confidence region
+
+
+Panel 0: N1/N0 = 10^0:
+
+l          +-----------+
+o    3.00  |      O    |
+g    2.50  |      O    |
+     2.00  |      O    |
+t    1.50  |      O    |
+h    1.00  |      *    |
+e    0.50  |      *    |
+t    0.00  |      O    |
+a          +-----------+
+0                       
+              undefined 
+\end{minipage}
+\end{alltt}
+This panel summarizes simulations for the case in which no growth
+occurred, so that $\THETAa = \THETAb$.  The vertical axis shows values
+of $\CLog \THETAa$.  The horizontal axis is usually for $\TAU$, but it
+is undefined here because this panel is for the case in which no
+growth has occurred.  Within the plot, each symbol indicates the
+result of a hypothesis test.  Open circles ``O'' indicate hypotheses
+that have been rejected at the 0.01 significance level, dots ``.''
+indicate hypotheses that have been rejected at the 0.05 significance
+level, and asterisks ``*'' indicate hypotheses that have not been
+rejected.   The plot shown here indicates that we cannot reject the
+hypotheses that $\CLog \THETA = 0.5$ or that $\CLog \THETA = 1$.  All
+other hypotheses involving a constant population size are rejected.
+
+The second panel in the output of \io{ci2txt} looks like
+\begin{alltt}
+\begin{minipage}{\textwidth}
+Panel 1: N1/N0 = 10^1:
+
+l          +-----------+
+o    3.00  |O O O O O O|
+g    2.50  |O O O O O O|
+     2.00  |O O O O O O|
+t    1.50  |O O O O O O|
+h    1.00  |* * * . O O|
+e    0.50  |* * * * * O|
+t    0.00  |O * * * * *|
+a          +-----------+
+0                   1 1 
+            2 4 6 8 0 2 
+                        
+                    tau 
+\end{minipage}
+\end{alltt}
+This panel summarizes hypothesis tests for cases in which $\THETAb$ is
+10 times as large as $\THETAa$ (and therefore $\Nb$ is 10 times as
+large as $\Na$).  Here, the horizontal axis indicates values of
+$\TAU$.  As before, asterisks indicate the portion of the parameter
+space that is contained within the confidence region.

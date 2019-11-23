@@ -1,0 +1,174 @@
+Read.me FILE FOR ANONYMOUS FTP, ANTHRO.UTAH.EDU
+
+1. INTRODUCTION
+
+This document describes the files that are available via anonymous ftp
+from anthro.utah.edu.
+
+The suffix of a filename indicates the format in which the file is
+written.  For example, the suffix ".ps" indicates that the file
+"continuity.ps" is written in Postscript format.  The suffix ".*"
+indicates that several formats are available.  For example,
+"continuity.*" refers to several files: continuity.ps, continuity.dvi,
+and continuity.hp.  Read section 3 of this document to figure out
+which format is appropriate for you.
+
+Section 2 of this document describes the files that are available.  
+
+Section 3 describes file formats.
+
+Section 4 provides instructions for using anonymous ftp.
+
+****************************************************************
+2. FILES AVAILABLE VIA ANONYMOUS FTP FROM ANTHRO.UTAH.EDU
+
+admix.*: Elisabeth Manderscheid and Alan Rogers. 1995. Genetic
+admixture in the late Pleistocene. Manuscript.
+
+continuity.*: Alan Rogers. 1995. How much can paleontology tell us
+about regional continuity? CURRENT ANTHROPOLOGY. In press.
+
+divbiask.*: Alan Rogers and Lynn Jorde. 1995. Ascertainment bias in
+estimates of heterozygosity.  Manuscript.
+
+dilemma.*: Kristen Hawkes, Alan Rogers, and Eric Charnov.  1995. The
+male's dilemma: increased offspring production is more paternity so
+steal.  Evolutionary Ecology. In press.
+
+eeprog.*: The Anthropology Dept's graduate program in Evolutionary
+Ecology (1993 version)
+
+explosion.*: Alan R. Rogers. 1995. Genetic evidence for a
+Pleistocene Population Explosion. EVOLUTION. In Press. 
+
+fruit.*: Rogers, A.R. 1995. Beating your neighbor to the berry patch.
+Manuscript.
+
+fund.*: Alan R. Rogers. 1994. Fundamental Methods of Evolutionary
+Ecology. (course notes)
+
+ima.*: Alan R. Rogers. 1995. Population structure and modern
+human origins.  In: MATHEMATICAL POPULATION GENETICS (provisional
+title), edited by Peter Donnelly and Simon Tavare.  Institute for
+Mathematics and its Applications.
+
+ksm.tar: Software that uses genetic data to estimate the extent to
+which migration is kin-structured.  This software was used in:
+Elisabeth J. Manderscheid, James A. Brannan and Alan
+R. Rogers. 1994. Is migration kin-structured? Human Biology, 66(1):
+49-57.
+
+motiv.*: Alan R. Rogers. 1995. For love or money: The evolution of
+reproductive and material motivations.  In: HUMAN REPRODUCTIVE
+DECISIONS, edited by Robin I. M. Dunbar. In Press. 
+
+mantel.tar: A program for comparing matrices.
+
+mismatch*.tar: Software for analysis of mismatch distributions (i.e.
+distributions of pairwise nucleotide (or restriction) site differences.
+
+mktree.tar: A crude program that takes a given population history and
+simulates a genealogy and mismatch distribution.  The output is more
+or less in PicTeX format, but it takes a some editing to produce
+working PicTeX code.
+
+origins.*: Rogers, A.R. and L.B. Jorde. Feb 1995. Genetic evidence on
+modern human origins. HUMAN BIOLOGY, 67(1):1-36.
+
+****************************************************************
+3. FILE FORMATS
+
+The suffix of a file indicates the format in which it is written:
+
+  File   : Transfer :
+suffix   :     mode : Interpretation
+-----------------------------------------------------------------------
+ *.dvi   :   binary : TeX (or LaTeX) dvi format.  
+         :          :
+ *.hp    :   binary : Hewlett-Packard laserjet format (requires a printer
+         :          : with lots of memory).
+         :          :
+ *.ps    :     text : Postscript format (for Apple laserwriters and other
+         :          : printers that use the Postscript language)
+         :          :
+ *.tar   :   binary : An archive that must be unpacked using the tar or
+         :          : pdtar programs.
+         :          :
+ *.Z     :   binary : Compressed.  Uncompress using zcat or the z
+         :          : option of pdtar.
+         :          :
+ *.gz    :   binary : Compressed using Gnu's gzip.  Uncompress using
+         :          : gunzip.
+         :          :
+ *.tar.gz:          :
+ or *.tgz:   binary : A tar archive that has been compressed using gzip.
+         :          : First uncompress using gunzip and then unpack
+         :          : using tar or pdtar.
+****************************************************************
+
+4. USING ANONYMOUS FTP
+
+1. Type "ftp anthro.utah.edu".  This connects you to the server at the
+Department of Anthropology, University of Utah.  If it does not,
+consult your computer guru or ask me (rogers@anthro.utah.edu) to mail
+you a hard copy of the file you are interested in.
+
+2. You will see some irrelevant information followed by a prompt that
+looks something like this:
+
+     Name (anthro.utah.edu:rogers):
+
+After the colon, type "anonymous" (don't type the quotes) and hit return. 
+
+3. After more irrelevant information, you will see:
+
+      Password:
+
+After the colon, type your complete internet address and hit return.
+For example, I would type "rogers@anthro.utah.edu".
+
+4. You will see:
+
+      ftp>
+
+You are now connected to ftp.
+
+5. Type "cd pub" to get into the public directory.
+
+If you wish, type "ls" to get a list of available files.  You can also
+type "?" to get a list of available commands.
+
+6. If the file you want ends with .tar, .dvi, or .Z, it must be
+transferred in "binary" mode.  To enter binary mode, type "binary" and
+hit return.  Do not use binary mode with files ending with .tex, .txt,
+or .ps.
+
+7. To download a file named "foo.ps", type "get foo.ps".  Ftp will
+tell you when it has finished downloading the file.
+
+8. Type "quit" and hit return to get out of ftp.
+
+These instructions are for the version of ftp that runs under unix.
+Other versions are so similar that it isn't usually necessary to read
+the manual.
+
+9. Once you have the file on your machine, you will want to send it to
+your printer.  The commands for doing this differ among operating
+systems.  Here are a few examples, each assuming that the file you
+want to print is called foo.ps:
+ 
+  On Berkeley UNIX:  lpr foo.ps
+ 
+  On AT&T UNIX:      lp foo.ps
+ 
+  On MSDOS:          copy /b foo.ps prn:
+   or maybe:         print foo.ps
+ 
+  On Macintosh:      The Mac tries to ensure that ordinary users never
+                     see the postscript code that its text processing
+                     software generates.  The result is that even
+                     though postscript is the Mac's native language,
+                     you need a special program to send a postscript
+                     file to the printer.  Look for a program named
+                     psprint, printps, send-ps, or something similar.
+

@@ -1,0 +1,63 @@
+\begin{thebibliography}{10}
+
+\bibitem{Ewens:RoleOfModels}
+Warren~J. Ewens.
+\newblock The role of models in the analysis of molecular genetic data, with
+  particular reference to restriction fragment data.
+\newblock In Bruce~S. Weir, editor, {\em Statistical Analysis of {DNA} Sequence
+  Data}, pages 45--73. Marcel Dekker, New York, 1983.
+
+\bibitem{Harpending:HB-66-591}
+Henry Harpending.
+\newblock Signature of ancient population growth in a low resolution
+  mitochondrial {DNA} mismatch distribution.
+\newblock {\em Human Biology}, 66(4):591--600, 1994.
+
+\bibitem{Hudson:OSE-7-1}
+Richard~R. Hudson.
+\newblock Gene genealogies and the coalescent process.
+\newblock In Douglas Futuyma and Janis Antonovics, editors, {\em Oxford Surveys
+  in Evolutionary Biology}, volume~7, pages 1--44. Oxford University Press,
+  Oxford, 1990.
+
+\bibitem{Kimura:TPB-2-174}
+Motoo Kimura.
+\newblock Theoretical foundation of population genetics at the molecular level.
+\newblock {\em Theoretical Population Biology}, 2:174--208, 1971.
+
+\bibitem{Lamport:LDP-94}
+Leslie Lamport.
+\newblock {\em \LaTeX: A Document Preparation System}.
+\newblock Addison-Wesley, Menlo Park, CA, 2nd edition, 1994.
+
+\bibitem{Rogers:E-49-608}
+Alan~R. Rogers.
+\newblock Genetic evidence for a {P}leistocene population explosion.
+\newblock {\em Evolution}, 49(4):608--615, August 1995.
+
+\bibitem{Rogers:MBE-13-895}
+Alan~R. Rogers.
+\newblock Mitochondrial mismatch analysis is insensitive to the mutational
+  process.
+\newblock {\em Molecular Biology and Evolution}, 13(7):895--902, 1996.
+
+\bibitem{Rogers:PPG-97-55}
+Alan~R. Rogers.
+\newblock Population structure and modern human origins.
+\newblock In Peter~J. Donnelly and Simon Tavar\'e, editors, {\em Progress in
+  Population Genetics and Human Evolution}, pages 55--79. Springer-Verlag, New
+  York, 1997.
+
+\bibitem{Rogers:MBE-9-552}
+Alan~R. Rogers and Henry~C. Harpending.
+\newblock Population growth makes waves in the distribution of pairwise genetic
+  differences.
+\newblock {\em Molecular Biology and Evolution}, 9:552--569, 1992.
+
+\bibitem{Wichura:PM-87}
+Michael~J. Wichura.
+\newblock {\em The PiCTeX Manual}.
+\newblock Number~6 in \TeX{}niques: Publications for the \TeX\ Community. \TeX\
+  Users Group, P.O.\ Box 9506, Providence, R.I.\ 02940, USA, 1987.
+
+\end{thebibliography}

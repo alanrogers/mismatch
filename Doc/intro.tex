@@ -1,0 +1,61 @@
+% -*-latex-*-
+\chapter{Introduction\label{ch.intro}}
+
+\section{Package contents}
+
+The package contains the following programs:
+\begin{description}
+\item[\io{mmest}] estimate parameters
+\item[\io{mmci}] construct a confidence region
+\item[\io{mmgen}] general purpose simulation program
+\item[\io{ci2txt}] read a confidence region (the output of mmci)
+and re-display it using character graphics
+\item[\io{ci2ptx}] read a confidence region (the output of mmci)
+and produce a graphical display in PicTeX format. 
+\item[\io{normdist}] Normalize a distribution so that it sums to 1, or
+      invert this process to obtain a distribution of counts.
+\item[\io{makemm}] Reads sequence data in PHYLIP format; writes a mismatch
+      distribution.  
+\end{description}
+
+\section{Overview}
+
+A \emph{Mismatch distribution} (or distribution of pairwise
+differences) is a histogram whose i'th entry is the number of pairs of
+individuals in the data who differ by i sites.  \io{Mismatch} is a
+package of computer programs designed to analyze such data.
+
+The package estimates parameters and tests hypotheses that relate to
+various models of population history.  Central among these is the
+``model of sudden expansion,'' which assumes that an initial population
+was at mutation-drift equilibrium with size $N_0$, and then grew (or
+shrank) rapidly to size $N_1$.  We observe it $T$ generations later.  The
+behavior of the mismatch distribution can be predicted from three
+parameters:
+\begin{definition}
+\item[$\THETAa$]$2 u N_0$, where $u$ is the mutation rate per
+      generation, summed over all nucleotide sites that contribute to
+      the analysis, 
+\item[$\THETAb$]$2 u N_1$
+\item[$\TAU$]$2 u T$
+\end{definition}
+The programs in this package estimate these parameters and construct a
+multivariate confidence region for them.  In simulations, the program
+allows the user to specify a complex population history including an
+arbitrary number of changes in population size, in the number of
+subpopulations, and in the rate of migration between subpopulations.
+The simulation programs can also accomodate a variety of assumptions
+about the mutational process.  The statistical methods are described
+in full by Rogers
+\cite{Rogers:E-49-608,Rogers:MBE-13-895,Rogers:PPG-97-55}.   
+
+\section{Getting information over the net}
+
+Unpublished papers describing these methods can be obtained
+electronically via anonymous ftp from anthro.utah.edu.  See the file
+\io{ftp.doc}, which is included with the distribution.
+
+\section{Installation}
+
+See the file named \io{README}.
+

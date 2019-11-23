@@ -1,0 +1,50 @@
+% -*-latex-*-
+\chapter{Program: \io{mmgen}\label{ch.mmgen}}
+
+\section{Purpose} General purpose simulation program
+
+\section{Usage\label{sec.mmgen.usage}} \io{mmgen [options]}\\
+where options may include:
+\begin{description}
+\item[\io{-c}]    Generate cumulants? Default=NO
+\item[\io{-C}]    Print cumulants? Default=NO
+\item[\io{-d}]    Calc tree depth? Default=NO
+\item[\io{-D}]    Calc mean pairwise diff? Default=NO
+\item[\io{-g$<$x$>$}] Set gamma shape parameter to \verb@<x>@
+      Default=1.000000 
+\item[\io{-i$<$x$>$}] Set iterations to \verb@<x>@. Default=1
+\item[\io{-l$<$x$>$}] Set length of mismatch distribution to
+      \verb@<x>@. Default=25 
+\item[\io{-mi}]   mutation model = infinite sites
+\item[\io{-mf}]   mutation model = finite sites w/ equal rates
+\item[\io{-mg}]   mutation model = finite sites w/ gamma rates
+\item[\io{-ms}]   mutation model = stepwise
+\item[\io{-n$<$x$>$}] Set sample size to \verb@<x>@. Default=10
+\item[\io{-pd}]   Print data? Default=NO
+\item[\io{-ph}]   Print histograms? Default=NO
+\item[\io{-pp}]   Plot results? Default=NO
+\item[\io{-ps}]   Print segregating sites? Default=NO
+\item[\io{-q}]    Calc quantiles? Default=NO
+\item[\io{-r}]    Reset gamma-model mutation rates each time? Default=NO
+\item[\io{-s$<$x$>$}] Set \# of sites to \verb@<x>@ (finite sites only)
+      Default=100 
+\item[\io{-S}]    Do segregating sites? Default=NO
+\item[\io{-t}]    Calc theoretical distribution. Default=NO
+\item[\io{-v}]    Verbose mode?  Default=NO
+\end{description}
+See section~\ref{sec.mutation} for a description of mutational models.
+
+\section{Description}
+
+\io{mmgen} runs simulations and tabulates the results in a bewildering
+variety of ways.  It uses a population history defined, as usual, in
+the \io{pophist.ini} file.  Unlike \io{mmci}, \io{mmgen} considers
+only a single population history during any given run.  See
+chapter~\ref{ch.simulate} for an explanation of the simulations that
+are performed.
+
+\section{Bugs}
+
+I have not written a decent manual page for this program.  You are on
+your own.
+

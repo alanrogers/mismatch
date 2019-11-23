@@ -1,0 +1,273 @@
+% -*-latex-*-
+\chapter{Program: \io{mmci}\label{ch.mmci}}
+
+\section{Purpose} Estimate a confidence region.
+
+\section{Usage\label{sec.mmci.usage}} \io{mmci [options] inputfile}\\
+where options may include:
+\begin{description}
+\item[\io{-g<x>}] Set gamma shape parameter to \verb@<x>@ Default=1.000000
+\item[\io{-i<x>}] Set iterations to \verb@<x>@. Default=1000
+\item[\io{-l<x>}] Set length of mismatch distribution to
+\verb@<x>@. Default=as in input  
+\item[\io{-mi}]   mutation model = infinite sites
+\item[\io{-mf}]   mutation model = finite sites w/ equal rates
+\item[\io{-mg}]   mutation model = finite sites w/ gamma rates
+\item[\io{-ms}]   mutation model = stepwise
+\item[\io{-r}]    Reset gamma-model mutation rates each time? Default=NO
+\item[\io{-v}]    Toggle verbose mode Default=YES
+\end{description}
+See section~\ref{sec.mutation} for a description of mutational models.
+
+\section{Description}
+
+\io{mmci} considers a large number of population histories.  At each
+history, it uses computer simulations (see ch.~\ref{ch.simulate}) to
+perform a significance test.  The confidence region consists of the
+union of histories that cannot be rejected.
+
+\subsection{Testing a population history\label{sec.mmci.test}}
+
+The following steps are performed for each population history:
+\begin{enumerate}
+\item Calculate the theoretical mismatch distribution from the
+history.
+
+\item Calculate the Mean Absolute Error $(\MAE)$ between the observed
+mismatch the theoretical mismatch distributions.  Call this the
+``observed $\MAE$.''
+
+\item Simulate a large number of data sets using this same history, as
+described in chapter~\ref{ch.simulate}.
+
+\item For each simulated data set, calculate the $\MAE$ between the
+simulated mismatch distribution and the theoretical mismatch
+distribution.  Call these ``simulated $\MAE$s.''
+
+\item Reject the history at the 0.05 significance level if the
+observed $\MAE$ is greater than 95 percent of the simulated $\MAE$s. 
+\end{enumerate}
+At present, the program ignores population structure in calculating
+the theoretical distribution.  This reflects my original purpose in
+adding population structure to the program---I wanted to ask how much
+error is introduced when the real population is structured, but the
+analysis assumes global random mating \cite{Rogers:PPG-97-55}.  The
+confidence regions are still valid but could probably be made smaller
+(at least in structured populations) by incorporating population
+structure into the analysis.  It is not easy to incorporate population
+structure because we have no simple formula, analogous to the one in
+Rogers and Harpending \cite{Rogers:MBE-9-552}, for the theoretical
+mismatch distribution of a subdivided population.
+
+\subsection{Models of mutation\label{sec.mmci.mutation}}
+
+Several models of mutation are available: infinite sites, finite sites
+with equal rates, finite sites with gamma-distributed rates, and
+stepwise.  These are described in chapter~\ref{ch.simulate}.
+The choice between them is made by command-line switches, as described
+in section~\ref{sec.mmci.usage}.
+
+\section{Input}
+
+There are three sorts of input to worry about.  
+
+\subsection{Command line arguments}
+
+The operation of \io{mmci} can be controlled through a variety of
+command line arguments, as summarized in section~\ref{sec.mmci.usage}
+above.
+
+\subsection{The primary input file}
+
+The primary input file, which must be specified on the command line,
+has a format just like the output file produced by \io{mmest}.  The
+distribution contains a file that was generated
+by applying \io{mmest} to the Cann-Stoneking-Wilson data in file
+\io{csw.mm}.  This file is called \io{csw.est} and looks like this:
+\begin{verbatim}
+%                                   MMEST
+%                  (Estimation from Mismatch Distribution)
+%                             by Alan R. Rogers
+%                                Version 4-2
+%                                16 Nov 1998
+%                         Type `mmest -- ' for help
+
+% Cmd line: mmest csw.mm
+% Using histogram of length 31. Input histogram had length 31.
+InputFile = csw.mm;
+NSequences = 147;
+NSites = 3000;
+Mismatch = 28 49 126 245 402 640 874 1178 1245 1119 1084 874 748 619
+  451 336 217 150 87 42 42 42 21 21 21 21 14 14 7 7 7;
+
+%                       mean           var E[(x-mean)^3]
+   Cumulants =        9.4706       16.2234       60.3741 ;
+
+%       theta0    theta1       tau       MAE     Rghns       Seg
+Est=     2.599     382.2     6.872  0.002538  0.003594       195;
+
+% mmci ranges are specified by: start-val, end-val, increment
+% Edit the following to control mmci:
+RangeLog10Theta0 = 0 3 0.50 ;
+RangeGrowth = 0 3 1 ;
+RangeTau = 2 12 2 ;
+\end{verbatim}
+When \io{mmci} reads this file, it treats the \%{} as a comment
+delimiter, ignoring everything from the \%{} to the end of the line.
+All the other lines are in the form of an assignment statement:
+\begin{verbatim}
+  <label> = <values> ;
+\end{verbatim}
+where \verb@<label>@ is a name and \verb@<values>@ a blank-delimited
+list of one or more values.  The meaning of all this is explained in
+chapter ~\ref{ch.mmest}.
+
+The last section of the input file above is used to control the
+population history parameters that are considered.  Although the
+history may have many parameters, only 3 of these are varied
+systematically by \io{mmci}.  To vary the others, you have to run the
+program more than once, changing the \io{pophist.ini} file before each
+run.  The variable parameters are:
+follows:
+\begin{description}
+\item[$\THETAb$] the value of $\THETA$ in the most recent epoch\\
+\item[$\THETAa$] the value of $\THETA$ in the preceding epoch\\
+\item[$\TAU$] the length of the most recent epoch in mutational time
+units
+\end{description}
+
+To govern the behavior of the three variable parameters, you must
+specify three range variables: \io{RangeLog10Theta0},
+\io{RangeGrowth}, and \io{RangeTau}.  Here, ``Growth'' is the common
+log of $\THETAb/\THETAa$.  Each range variable is specified by a
+statement of form
+\begin{center}
+\io{Range = start-value end-value increment ;}
+\end{center}
+For example,
+\begin{verbatim}
+RangeLog10Theta0 = 0 2 0.5 ;
+\end{verbatim}
+tells \io{mmci} that $\CLog \THETA_a$ should range from 0 through
+2 in increments of 0.5.  
+
+\subsection{The population history file}
+
+The \io{pophist.ini} file is described in detail in
+section~\ref{sec.pophist}.  The discussion here will cover only the
+peculiarities in the way \io{mmci} treats this file.
+
+Suppose that my \io{pophist.ini} file looked like this:
+\begin{verbatim}
+%theta      M       tau        K
+1000        0       2          3
+0.1         0       0.3        1
+100         10      Inf        1
+\end{verbatim}
+\io{mmci} would pay no attention to the values
+$\THETA[2] = 0.1$, $\THETA[3] = 1000$, and $\TAU[3]=2$.  Instead,
+these values would be overridden by the ranges specified in the input
+file.   The rest of \io{pophist.ini}, however, would be used in the
+simulations. 
+
+\section{Output}
+
+To produce some sample output, I used the values of the preceding
+examples to set the range parameters in the file
+\io{csw.est} and the history parameters in the file \io{pophist.ini}
+and then executed \io{mmci} by typing
+\begin{verbatim}
+  mmci csw.est > csw.ci
+\end{verbatim}
+This places the primary output of \io{mmci} into the file \io{csw.ci}.
+However, \io{mmci} continues to write messages to your screen so that
+you can tell how it is progressing.  This is important because one can
+easily launch \io{mmci} into a run that would take months to complete.
+You need a way of estimating the time that will required.  After
+\io{mmci} had been running for a few minutes, my screen looked like
+this: 
+\begin{verbatim}
+[rogers@willow]\$ mmci csw.est > csw.ci
+
+Reading history from file pophist.ini
+% tau values: 0.300000 2.000000 5.000000 6.000000
+% theta values: 0.1 1 10 100 1000 10000 100000
+14548 bytes allocated to stack 1
+Doing 14000 iterations in all
+progress: 36.20%
+\end{verbatim}
+The bottom line is updated after every simulation and makes it easy to
+estimate the time that the whole job will take.  On my computer, it
+took 17~s for \io{mmci} to complete 1 percent of the job, which
+implies that the whole job will take about 28 minutes.  This is pretty
+fast, and reflects the speed of the infinite sites model of mutation.
+The same experiment with the Gamma mutational model 
+(\io{mmci~-mg~...}) would take about two hours.  If your data include
+lots of subjects and lots of sites and your range specification calls
+for simulations at lots of parameter values, you may find that your
+runs require weeks of computer time.
+
+\io{mmci}'s primary output file starts by echoing the data that went
+into it:
+\begin{verbatim}
+%                                    MMCI
+%              (Confidence Interval for Mismatch Distributions)
+%                             by Alan R. Rogers
+%                                Version 4-2
+%                                16 Nov 1998
+%                          Type `mmci -- ' for help
+
+%     theta         mn        tau          K
+% 1000.0000     0.0000    70.0000          1
+%   10.0000     0.0000        Inf          1
+
+% Using histogram of length 31. Input histogram had length 31.
+%InputFile = csw.mm;
+%Iterations = 1000;
+% total sampsize=147 subdivisions=1
+% subdivision sizes: 147
+%Sampsize = 147;
+% Mutation model = infinite sites
+% Tests use: MAE
+% Observed values: MAE=0.002538;
+RangeLog10Theta0 = 0.000000 3.000000 0.500000 ;
+RangeGrowth = 0.000000 3.000000 1.000000 ;
+RangeTau = 2.000000 12.000000 2.000000 ;
+\end{verbatim}
+I hope that this material is self explanatory.
+
+After this introductory section comes the confidence region.  This is
+presented as a series of tests, one on each line:
+\begin{verbatim}
+%%%%%%%%%%%%%%%Confidence Interval%%%%%%%%%%%%%%%
+
+% Begin figure 1
+    Growth =       0.00000 ;
+%                      tau log10[theta0]         p-val
+      Test =     5.0000000     0.0000000     0.0000000 ;
+      Test =     5.0000000     2.0000000     0.0000000 ;
+
+% Begin figure 2
+    Growth =       1.00000 ;
+%                      tau log10[theta0]         p-val
+      Test =     5.0000000     0.0000000     0.0000000 ;
+      Test =     5.0000000     2.0000000     0.0000000 ;
+      Test =     6.0000000     0.0000000     0.0030000 ;
+      Test =     6.0000000     2.0000000     0.0000000 ;
+\end{verbatim}
+and so on.  Each section begins with a \io{Growth} value, which is
+equal to $\CLog (\THETAb/\THETAa)$.  Within each section is a series
+of lines labeled \io{Test}, each of which shows the outcome of a
+particular test.  The first test in this output considers the case in
+which $\TAU=5$, $\CLog \THETAa = 0$, and $\CLog (\THETAb/\THETAa)=0$.
+For this test, the estimates $p$-value is 0, which means that all of
+the simulated $\MAE$s were smaller than the observed $\MAE$ (see
+section~\ref{sec.mmci.test}).  The 95 percent confidence region
+consists of the union of the population histories for which the
+$p$-value is at least 0.05.  In the output above, none of the lines
+shown would be inside the confidence region.
+
+To make this output useful, we need some means of turning it into a
+graphical display.  For this purpose, see the documentation of
+\io{ci2txt} and \io{ci2ptx}. 
+

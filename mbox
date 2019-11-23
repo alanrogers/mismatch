@@ -1,0 +1,237 @@
+From mgt1001@cus.cam.ac.uk Tue Mar 28 09:02 MST 1995
+Return-Path: <mgt1001@cus.cam.ac.uk>
+Received: from bootes.cus.cam.ac.uk by anthro.utah.edu (5.0/SMI-SVR4)
+	id AA07710; Tue, 28 Mar 1995 09:02:25 -0700
+Received: from apus.cus.cam.ac.uk [131.111.8.2] (ident = root) 
+	by bootes.cus.cam.ac.uk with smtp 
+	(Smail-3.1.29.0 #30) id m0rtdlM-000BzIC; Tue, 28 Mar 95 17:05 BST
+Received: by apus.cus.cam.ac.uk 
+	(Smail-3.1.29.0 #27) id m0rtdlL-00034gC; Tue, 28 Mar 95 17:04 BST
+Message-Id: <m0rtdlL-00034gC@apus.cus.cam.ac.uk>
+Date: Tue, 28 Mar 95 17:04 BST
+From: mgt1001@cus.cam.ac.uk (Dr M.G. Thomas)
+To: rogers@anthro.utah.edu
+Subject: Re: Mismatch Calculations
+Content-Type: text
+Content-Length: 3968
+Status: R
+
+Dear Dr Rogers
+
+Thanks for the mismatch2b info. I having a few problems as follows:
+
+The program makemm dosen't seem to be able to read a phylip data file.
+It seem to be finding the character "K" in the phylip file when its
+
+apus$ makemm austro.phy > austro.dat
+
+Illegal data value in subject "cby95h1": "K"
+ 
+was the error message I got
+
+Also, when I ran the command "latex mkfig" latex did not finish cleanly
+but fell over. I append the log file as follows
+
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.9.23)  28 MAR 1995 16:44
+**mkfig
+(mkfig.tex
+LaTeX2e <1994/06/01>
+(/opt/TeX/lib/texmf/tex/latex2e/base/latex209.def
+File: latex209.def 1994/06/01 Standard LaTeX file
+
+Entering LaTeX 2.09 compatibility mode.
+\footheight=\dimen102
+\@maxsep=\dimen103
+\@dblmaxsep=\dimen104
+(/opt/TeX/lib/texmf/tex/latex2e/base/tracefnt.sty
+Package: tracefnt 1994/05/29 v2.3k Standard LaTeX package (font tracing)
+\tracingfonts=\count82
+LaTeX Info: Redefining \selectfont on input line 113.
+)
+\symbold=\mathgroup4
+\symsans=\mathgroup5
+\symtypewriter=\mathgroup6
+\symitalic=\mathgroup7
+\symsmallcaps=\mathgroup8
+\symslanted=\mathgroup9
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 179.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 180.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 181.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 187.
+LaTeX Info: Redefining \em on input line 197.
+
+(/opt/TeX/lib/texmf/tex/latex2e/base/latexsym.sty
+Package: latexsym 1994/05/27 v2.1e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup10
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+LaTeX Font Info:    Redeclaring math delimiter \lgroup on input line 262.
+LaTeX Font Info:    Redeclaring math delimiter \rgroup on input line 264.
+LaTeX Font Info:    Redeclaring math delimiter \bracevert on input line 266.
+)
+(/opt/TeX/lib/texmf/tex/latex2e/base/article.cls
+Document Class: article 1994/06/02 v1.2s Standard LaTeX document class
+(/opt/TeX/lib/texmf/tex/latex2e/base/size10.clo
+File: size10.clo 1994/06/02 v1.2s Standard LaTeX file (size option)
+)
+\c@part=\count83
+\c@section=\count84
+\c@subsection=\count85
+\c@subsubsection=\count86
+\c@paragraph=\count87
+\c@subparagraph=\count88
+\c@figure=\count89
+\c@table=\count90
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+Compatibility mode: definition of \rm ignored.
+Compatibility mode: definition of \sf ignored.
+Compatibility mode: definition of \tt ignored.
+Compatibility mode: definition of \bf ignored.
+Compatibility mode: definition of \it ignored.
+Compatibility mode: definition of \sl ignored.
+Compatibility mode: definition of \sc ignored.
+\bibindent=\dimen105
+) (prepictex.tex) (pictex.tex
+! Undefined control sequence.
+<argument> \fiverm 
+                   .
+l.2566 \setplotsymbol({\fiverm .})
+                                  %       ** initialize plotsymbol
+? e
+ 
+Here is how much of TeX's memory you used:
+ 791 strings out of 11075
+ 7577 string characters out of 75002
+ 51588 words of memory out of 262141
+ 3614 multiletter control sequences out of 9500
+ 3640 words of font info for 14 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 19i,0n,19p,223b,38s stack positions out of 300i,40n,60p,3000b,4000s
+No pages of output.
+
+Any ideas?
+
+Sorry for the fuss, thanks for all the help
+
+Yours etc
+	Mark Thomas
+********************************************************************
+*                                                                  *
+*     Dr Mark Thomas		Dept of Biological Anthropology    *
+*				University of Cambridge            *
+*				Downing St			   *
+*				Cambridge, CB2 3EZ.		   *
+*								   *
+*	Tel.  0223 335640  or 0223 335638			   *
+*	E-mail mgt1001@cus.cam.ac.uk or mthomas@hgmp.mrc.ac.uk     *
+*								   *
+********************************************************************
+
+
+
+
+
+
+
+
+
+From MCBRS@if.ufrgs.br Tue Sep 12 05:40 MDT 1995
+Return-Path: <MCBRS@if.ufrgs.br>
+Received: from if1.if.ufrgs.br ([143.54.2.1]) by anthro.utah.edu (5.0/SMI-SVR4)
+	id AA01657; Tue, 12 Sep 1995 05:40:21 -0600
+Received: from if1.if.ufrgs.br by if1.if.ufrgs.br (PMDF V4.3-10 #7035)
+ id <01HV6KWL8XZ6000ESI@if1.if.ufrgs.br>; Tue, 12 Sep 1995 08:46:00 -0003
+Date: Tue, 12 Sep 1995 08:46:00 -0003
+From: MCBRS@if.ufrgs.br
+Subject: From Porto Alegre
+To: rogers@anthro.utah.edu
+Message-Id: <01HV6KWL8XZ8000ESI@if1.if.ufrgs.br>
+X-Vms-To: IN%"rogers@anthro.utah.edu"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type: TEXT/PLAIN; CHARSET=US-ASCII
+Content-Length: 131
+Status: R
+
+Ola Dr. Rogers,
+Thanks very much for your informations and your program.
+I look forward to staying in touch with you.
+Maria Catira
+
+From patton@uclink.berkeley.edu Tue Oct 24 17:31 MDT 1995
+Return-Path: <patton@uclink.berkeley.edu>
+Received: from uclink.berkeley.edu by anthro.utah.edu (5.0/SMI-SVR4)
+	id AA08454; Tue, 24 Oct 1995 17:31:32 -0600
+Received: from [128.32.214.55] by uclink.berkeley.edu (8.6.10/1.33(web)-OV4)
+	id QAA08466; Tue, 24 Oct 1995 16:15:03 -0700
+Message-Id: <v02110105acb32330fc76@[128.32.214.55]>
+Mime-Version: 1.0
+Date: Tue, 24 Oct 1995 16:15:05 -0700
+To: rogers@anthro.utah.edu (Alan R. Rogers)
+From: patton@uclink.berkeley.edu (Jim Patton)
+Subject: Re: mismatch paper
+Content-Type: text/plain; charset="us-ascii"
+Content-Length: 1373
+Status: R
+
+Alan:  thanks for the message.  I just read your Evolution paper (received
+my copy of the journal today) and got access to the mismatch program, which
+I'll try on a couple of large haplotype data sets I have on some Amazonian
+rodents as soon as I figure out how to compile it.  Looks like a very
+interesting approach, but I am an empiricist not a theoretist.  The e-mail
+address you have for Monty Slatkin is a correct one, but if he doesn't
+answer, I can hand deliver your message.
+Thanks,
+Jim Patton
+
+>I have a new manuscript showing that confidence regions estimated from
+>mismatch data are insensitive to assumptions about mutation.  You get
+>essentially the same CR no matter what you assume, within reason.  I
+>would be grateful for comments.  The paper is in the pub directory of
+>our ftp server (anthro.utah.edu) and is called
+>
+>   cigamma.dvi   TeX dvi format           (download in binary mode)
+>   cigamma.ps    postscript               (download in text mode)
+>   cigamma.lj    Hewlett Packard Laserjet (download in binary mode)
+>
+>This paper responds both to the paper by Bertorelle and Slatkin and to
+>the manuscript by Aris-Brosou and Excoffier.  I have not sent this
+>message to Aris-Brosou because I don't have his (or her?) address.
+>I'm not sure I have the right address for Slatkin either.  Do any of
+>you know the correct addresses?
+>
+>Thanks, Alan
+
+
+
+From patton@uclink.berkeley.edu Fri Nov 17 16:39 MST 1995
+Return-Path: <patton@uclink.berkeley.edu>
+Received: from uclink4.berkeley.edu by anthro.utah.edu (5.0/SMI-SVR4)
+	id AA21392; Fri, 17 Nov 1995 16:39:05 -0700
+Received: from uclink.berkeley.edu (uclink.berkeley.edu [128.32.155.3]) by uclink4.berkeley.edu (8.6.12/8.6.12) with ESMTP id PAA31083 for <rogers@anthro.utah.edu>; Fri, 17 Nov 1995 15:40:24 -0800
+Received: from [128.32.214.55] (jlp2.MVZ.Berkeley.EDU [128.32.214.55]) by uclink.berkeley.edu (8.6.12/8.6.12) with SMTP id PAA00267 for <rogers@anthro.utah.edu>; Fri, 17 Nov 1995 15:37:46 -0800
+Message-Id: <v02110107acd2be6d8d98@[128.32.214.55]>
+Mime-Version: 1.0
+Date: Fri, 17 Nov 1995 15:37:48 -0700
+To: rogers@anthro.utah.edu (Alan R. Rogers)
+From: patton@uclink.berkeley.edu (Jim Patton)
+Subject: Re: mismatch paper
+Content-Type: text/plain; charset="us-ascii"
+Content-Length: 523
+Status: R
+
+Alan:  Without doubt due to our general incompetence, but we are seemingly
+unable to get a compiled version of your Mismatch program package working.
+Computer environments available to us are PowerMac and PC.  Is there any
+way that you might be able to provide an executable verision for either of
+these platforms?  We also have access to Unix through a Sun SparcStation,
+but would have to learn how to use the system first.  Any help,
+suggestions, or other commenst would be most welcome.
+Thanks,
+Jim Patton
+UC-Berkeley
+
+
+

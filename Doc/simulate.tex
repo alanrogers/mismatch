@@ -1,0 +1,261 @@
+% -*-latex-*-
+\chapter{Simulations\label{ch.simulate}}
+
+This chapter describes the algorithm used in simulations, a variant of
+the geographically structured coalescent algorithm described by Hudson
+\cite{Hudson:OSE-7-1}.  
+
+\section{Describing a population history\label{sec.pophist}}
+
+Before performing a simulation, you must first describe your
+assumptions about the population's history.  Population histories may
+be simple or complex and are described by creating a file called
+\io{pophist.ini}, which must reside in the current directory at the
+time a program is invoked.
+
+I divide the past into an arbitrary number of epochs, within which
+parameter values are constant.  Each epoch is described by four
+parameters: $\THETA$, $M$, $\TAU$, and $K$, where
+\begin{definition}
+\item[$\THETA$]$2Nu$, where $N$ is the female population size
+      (including all subpopulations combined) and $u$ the aggregate
+      mutation rate (i.e. the sum of nucleotide mutation rates over
+      the genomic region under study).  See Rogers \& Harpending
+      \cite{Rogers:MBE-9-552} for further discussion of $u$. 
+
+\item[$M$]the number of migrants per generation between each pair of  
+       subpopulations (also equal to $Nm$ where $m$ is the migration
+       rate) 
+
+\item[$\TAU$]$2ut$, where $t$ is the length of the epoch in
+      generations.  $\TAU$ measures the epoch's length in
+      ``mutational'' time units, which equal $1/(2*u)$ generations.
+      When time is measured this way, there is no need to specify a
+      mutation rate.  A pair of individuals whose last common ancestor
+      lived 3 units of mutational time ago will be separated (on
+      average) by 3 mutations. 
+
+\item[$K$]the number of subpopulations
+\end{definition}
+The structure of the file \io{pophist.ini} is very simple: Each row
+corresponds to a different epoch, with the most recent epoch at the
+top.  Each row contains four numbers, the values of $\THETA$, $M$,
+$\TAU$, and $K$ (in that order).  The earliest epoch (in the bottom
+row) is always infinite in length.  A \io{pophist.ini} file with three
+epochs might look like this:
+\begin{verbatim}
+   %theta M   tau   K
+    100   1   7     3
+    1     0   0.001 1
+    50    0.5 Inf   2
+\end{verbatim}
+The input routine interprets everything between ``\%'' and the end of
+the line as a comment, a facility that I have used here to label the
+columns.  The second line says that during the most recent
+epoch, $\THETA=100$ (a large population), there were $M=1$ migrants
+per generation between each pair of groups, the epoch lasted $\tau=7$
+units of mutational time, and there were $K=3$ groups.
+
+The third line refers to the epoch that ended 7 units of time ago, and
+lasted only 0.001 units.  Thus, this epoch was very brief.  During
+this epoch, the population was small $(\THETA=1)$ and contained only a
+single group $(K=1)$.  The mutation rate is specified as $M=0$, but
+this has no effect since there is only one group.
+
+Line 4 refers to the initial epoch, during which the population was
+large $(\THETA=50)$ and had two groups $(K=2)$, which exchanged
+$M=0.5$ migrants per generation.  This epoch \emph{has} to be infinite
+in length.  To make this clear, you should place ``Inf'' into the
+bottom row of the \io{tau} column.  If you place some other
+non-numeric string there, the program will abort with an error.  A
+numeric value will generate a warning message and then treat the entry
+as infinite anyway.
+
+In summary, the example \io{pophist.ini} file describes a population
+that was initially large, and divided into two groups connected by a
+moderate level of migration.  The population underwent a bottleneck
+during which the population was small and had only a single group.
+Following the bottleneck, the population grew to twice its original
+size and split into three groups.
+
+Reductions in group numbers are accomplished by allowing randomly
+chosen groups to go extinct rather than by merging them.
+
+\section{Generating a genealogy}
+
+The algorithm begins with the last epoch, which I denote as epoch $L$.
+The $n$ individuals of the sample are at first divided evenly among
+the $K[L]$ groups of epoch $L$.  Thus, the algorithm requires that $n$
+be evenly divisible by $K[L]$.\footnote{The allocation of individuals
+among groups in the simulation should match that in the data under
+study.  Thus, the allocation used here is most appropriate when the
+real data include samples of equal size, drawn from several groups.}
+
+As the algorithm moves backward into the past, two types of event
+occur.  Migrations occur when an individual moves from one group to
+another, and ``coalescent events'' occur when two individuals have a
+common ancestor and therefore coalesce to become a single individual.
+The algorithm continues until only one individual is left.  The
+mathematical details are summarized in
+section~\ref{sec.coales.math}.
+
+\section{Models of mutation\label{sec.mutation}}
+
+The number of mutations along each branch is a Poisson random variable
+with parameter $ut$, where $u$ is the mutation rate and $t$ the
+length of the branch in generations \cite{Kimura:TPB-2-174}.  In
+mutational time, branch lengths equal $\TAU \equiv 2ut$ and the
+Poisson distribution has parameter $\TAU/2$.  Since the intervals of
+the population history are specified in mutational time, there is no
+need to specify a mutation rate.
+
+The number of substitutions need not equal the number of mutations,
+because mutations may strike the same site more than once.  To
+determine the number of substitutions, the program must make some
+assumption about the process of mutation.  The following models of
+mutation are available.
+
+\subsection{Model of infinite sites}
+
+The model of infinite sites assumes that no site can mutate more than
+once.  This assumption would follow if one had an infinite number of
+sites, each with an infinetisimal mutation rate (hence the name).  No
+one takes this to be an accurate description of any real mutational
+process.  It is used because (1)~it makes the analysis easy and the
+computer program fast, and because (2)~it often provides a good
+approximation to more realistic models of mutation.  It does much
+better at approximating the mismatch distribution and the things that
+can be calculated from it (mean, variance, etc.) than at approximating
+the number of segregating sites \cite{Rogers:MBE-13-895}.  It is the
+default mutational model in the programs that do simulations.
+
+\subsection{Model of finite sites with equal rates}
+
+This model takes the number of sites to be finite but assumes that all
+sites mutate at the same rate.  This model is invoked by the command
+line argument \io{-mf}.
+
+\subsection{Model of finite sites with Gamma-distributed rates}
+
+The number of sites is finite, and the mutation rate at each site is
+drawn independently from a gamma distribution.  The gamma distribution
+has two parameters, a scale parameter $b$ and a shape parameter $c$.
+The mutational time scale absorbs one of these $(b)$, but it is still
+necessary to specify $c$.  This can be done on the command line by
+specifying, say, \io{-g0.2}, to set $c=0.2$.  By default, $c=1$.
+
+Some statistics, such as the number of segregating sites, are very
+sensitive to the mutational model that is assumed.  This is bad, since
+we are not able to specify the mutational process in any great detail.
+Fortunately, the mismatch distribution is remarkably insensitive to
+the mutational model.  With intraspecific human data, I get
+essentially the same confidence region from all three models provided
+that $c>0.01$.  Fortunately, the number of segregating sites in the
+data allow us to reject the hypothesis that $c<0.05$, placing us
+firmly in the region where the three mutational models all give the
+same confidence regions.  For interspecific comparisons, mutation
+models will become more important.
+
+\section{Mathematical details of the coalescent
+algorithm\label{sec.coales.math}} 
+
+The hazard $h$ at time $\TAU$ is defined so that $h\, d\TAU$ is the
+probability that an event of either type will occur between $\TAU$ and
+$\TAU+d\TAU$, where $\TAU$ measures mutational time looking backwards
+into the past.  The hazard depends on prevailing values of the
+population history parameters, on the number of individuals, and on
+how these are distributed among groups.  At any given time, let $s[j]$
+denote the number of individuals within group $j$, $S = \sum_j s[j]$
+(the total number of individuals), and $R\equiv \sum_j s[j]^2$ (the sum
+of these numbers squared).  Then the hazard of an event
+is%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\footnote{Let $m$ denote the migration rate per generation, $g$
+the group size, and $M \equiv m g$.  The hazard per
+generation is
+\begin{displaymath}
+h^* \equiv\sum_j [s[j] m + s[j](s[j]-1)/(2g)]
+= (1/g)[ S M + (R-S)/2]
+\end{displaymath}
+The cumulative hazard in $t$ generations is 
+\begin{displaymath}
+h^*t = \frac{2ut}{2ug}[S M + (R-S)/2] 
+\equiv \frac{\TAU}{\gamma}[S M + (R-S)/2], 
+\end{displaymath}
+where $\TAU\equiv 2ut$ and $\gamma \equiv 2ug$.
+Equation~\ref{eq.hazard} follows from the observation that, by
+definition, the hazard $h$ in mutational time obeys $h\TAU \equiv h^*
+t$.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\label{eq.hazard}
+h = [S M[i] + (R - S)/2]/\gamma[i]
+\end{equation}
+where $\gamma[i] \equiv \theta[i]/K[i]$ and measures group size in epoch
+$i$.
+
+The algorithm first sets $S=n$, $R = K[L] (n/K[L])^2$, and then sets $h$
+using these values together with the parameters of the final epoch,
+$L$.  It then enters a loop that is executed repeatedly.  I describe
+the steps of this loop briefly before describing each step in detail.
+
+\paragraph{Overview of coalescent loop}
+\begin{enumerate}
+  \item \label{step.time} Find the time of the next event,
+        changing epochs and recalculating $h$ as necessary. 
+  \item \label{step.classify} Determine whether the next event is a
+        migration or a coalescent event.
+  \item \label{step.event} Carry out the next event.
+\end{enumerate}
+These steps are repeated until $S=1$.  Mutations are then added along
+each branch.
+
+\paragraph{Step~\ref{step.time}} Let $T[i]$ denote the amount of time
+that we have already traveled (backwards) into epoch $i$.  To find the
+time of the next event, draw a random number $x$ from an exponential
+distribution whose parameter equals unity.  In a constant world, the
+time of the next event would be $T[i] + x/h$.  If this time lies within
+epoch $i$ (i.e.\ if $T[i] + x/h < \TAU[i]$), then we have found the time
+of the next event.  Otherwise, change epochs as follows:
+\begin{enumerate}
+  \item[a] Subtract off the portion of $x$ that is ``used up'' by epoch
+        $i$, i.e.\ subtract $h\cdot(\TAU[i] - T[i])$ from the value of
+        $x$. 
+  \item[b] Reset population history parameters to those of epoch $i-1$
+        and set $T[i]$ to zero.  If $K[i-1] < K[i]$, join groups at
+        random to diminish the number of groups.  If $K[i-1]>K[i]$,
+        increase the number of groups, but allocate no individuals to the
+        new groups.  Individuals will enter the new groups only through
+        migration.%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\footnote{The assumption for $K[i-1]>K[i]$ implies that, in forward
+time, the number of groups has decreased because some groups have died
+out.  Other assumptions are possible and the present one was chosen
+only for computational convenience.
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item[c] Reset $R$ and $h$.  Subtract 1 from the value of $i$.
+\end{enumerate}
+This process repeats until $T[i] + x/h < \TAU[i]$.
+
+\paragraph{Step~\ref{step.classify}}
+Once the time of the next event has been established,
+step~\ref{step.classify} classifies the event as either a migration or
+a coalescent event.  Equation~\ref{eq.hazard} implies that the event is a
+migration with probability
+\begin{displaymath}
+P = \frac{S M[i]}{S M[i] + (R - S)/2}
+\end{displaymath}
+Thus, step~\ref{step.classify} calls the next event a migration with
+probability $P$ and a coalescent event with probability $1-P$.
+
+\paragraph{Step~\ref{step.event}} If the next event is a migration,
+then move a random individual into a new, randomly chosen group.  Then
+reset $R$ and $h$.  
+
+Otherwise, we have a coalescent event and the procedure is as follows.
+First choose a group at random, weighting each group by the number of
+pairs of individuals within it.  Then choose a random pair of
+individuals from within the chosen group, replace the two individuals
+with a single individual (their common ancestor), reduce $S$ by 1, and
+reset $R$ and $h$.

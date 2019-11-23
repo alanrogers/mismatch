@@ -1,0 +1,58 @@
+% -*-latex-*-
+\chapter{Program: \io{mmest}\label{ch.mmest}}
+
+\section{Purpose} Estimates parameters from mismatch data.
+
+\section{Usage} \io{mmest [options] inputfile}\\
+where options may include:
+\begin{description}
+\item[\io{ -l<x>}] Set length of mismatch distribution to
+\verb@<x>@. Default: as in input.
+\end{description}
+
+\section{Input} Data are read from a file, which must be specified
+on the command line.  The input file should look like:
+\begin{verbatim}
+% Source: Cann, RL, Stoneking, M, & Wilson, A. 1987. "Mitochondrial DNA
+% and human evolution". Nature 325(1): 31-36.
+segregating = 195;   %Polymorphic sites
+nsites = 3000 ;      %Number of sites assayed
+sampsize=147;        %Number of individuals in sample
+histogram = 28 49 126 245 402 640 874 1178 1245 1119 1084 874 748 619
+451 336 217 150 87 42 42 42 21 21 21 21 14 14 7 7 7 ;
+\end{verbatim}
+Comments begin with the \% character.  Assignment statements are of
+form
+\begin{verbatim}
+  <label> = <values> ;
+\end{verbatim}
+where \verb@<label>@ is a name and \verb@<values>@ a blank-delimited
+list of one or more values.  The input file must specify all of the
+quantities shown in the example above.  \io{histogram} is the mismatch
+distribution in integer format.  In other words, it is a vector whose
+first entry gives the number of pairs differing by 0 sites, whose
+second entry gives the number differing by 1 site, and so forth.  By
+convention, \io{mmest}'s input files have suffix \io{mm}.  For
+example, the input file shown above is called \io{csw.mm} in the
+Mismatch distribution.
+
+\section{Output} is self explanatory and includes estimates of:
+\begin{description}
+\item[$\THETAa$]the 2-parameter method of moments estimator described by
+          Rogers \cite{Rogers:E-49-608}.
+\item[$\THETAb$]estimated (very roughly) as $(1/F[0]) - 1$, where
+      $F[0]$ is the first entry of the empirical mismatch distribution
+      \cite{Rogers:MBE-9-552}. DO NOT PLACE ANY FAITH IN THIS
+          ESTIMATOR; it provides only a very rough indication of the 
+          magnitude of $\theta1$.  
+\item[$\TAU$]the 2-parameter method of moments estimator described by
+          Rogers \cite{Rogers:E-49-608}.
+\item[$\MAE$] Mean Absolute Error.  The mean absolute difference
+      between the fitted curve and the empirical distribution.  The
+          empirical distribution is $h/\Sum{h}$ where $h$ is the histogram
+          in the input data.  The fitted curve is calculated from
+          equation~4 of Rogers and Harpending \cite{Rogers:MBE-9-552}. 
+\item[Rghns]Harpending's \cite{Harpending:HB-66-591} $r$ statistic, a
+measure of roughness.
+\item[Seg]The number of segregating sites, copied from the input.
+\end{description}

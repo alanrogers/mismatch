@@ -1,0 +1,30 @@
+%                                   MMEST
+%                  (Estimation from Mismatch Distribution)
+%                             by Alan R. Rogers
+%                                Version 5-1
+%                                16 Aug 1999
+%                         Type `mmest -- ' for help
+
+% Cmd line: ./mmest csw.mm
+% Using histogram of length 31. Input histogram had length 31.
+InputFile = csw.mm;
+NSequences = 147;
+NSites = 3000;
+Mismatch = 28 49 126 245 402 640 874 1178 1245 1119 1084 874 748 619 451 336 217 150 87 42 42 42 21 21 21 21 14 14 7 7 7;
+
+%                       mean           var E[(x-mean)^3]
+   Cumulants =        9.4706       16.2234       60.3741 ;
+   Labels =      theta0     theta1        tau        MSE  roughness        Seg ;
+Estimates =     2.59862     382.25    6.87198  1.326e-05 0.00359374        195 ;
+
+% mmci ranges are specified by: start-val, end-val, increment
+% Edit the following to control mmci:
+% Ranges for testing a single set of parameter values
+RangeLog10Theta0 = 1 1 1 ;
+RangeGrowth = 1 1 1 ;
+RangeTau = 5 5 1 ;
+%
+% Ranges for comparison with explosion paper
+%RangeLog10Theta0 = -1 1.30103 0.3333333333333 ;
+%RangeGrowth = 0.000000 7.000000 1.000000 ;
+%RangeTau = 4 11 1 ;                

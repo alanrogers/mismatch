@@ -1,0 +1,112 @@
+This distribution is not really released yet.  I have put it onto my
+ftp site so that Henry Harpending could grab a copy to work with.
+There are never any guarantees with my software, but this package is
+even flakier than usual.
+
+Henry, the new STR confidence region program is in Mmcistr.  To
+install the package, first edit Makefile so that the line 
+
+BINDIR = $(HOME)/bin
+
+describes the place you want the software to live.  Then type
+"make clean; make depend; make" and let me know
+about any errors.  If all goes well, type "make install".
+
+CONTENTS OF THIS DISTRIBUTION.  Entries that end with a '/ are directories,
+each of which may have its own README file.  STR will refer to Short
+Tandem Repeats, or microsatellites.
+
+README       This file
+Makefile     Tells "make" program how to compile and link the programs.
+Ci2ptx/      Plot a confidence region using PicTeX.
+Data/        Miscellaneous data files used as examples.
+Doc/         A directory containing documentation.  See the file 
+             there named README.DOC. 
+Makemm/      Make mismatch distribution from sequence data
+Misc/        Functions used by several main programs
+Mmci/        Make a confidence region from sequence or restriction site data.
+Mmcistr/     Make a confidence region from STR data.
+Mmest/       Estimate parameters from mismatch distribution
+Mmgen/       General purpose simulation program
+Mmstr/       Mismatch distributions and parameter estimates from STR data.
+Normdist/    Normalize mismatch distributions distributions
+
+
+alloc2d.c    Allocate matrices
+charplot.c   Character plot function
+ci2ptx.c     Program: ci2ptx
+estimate.c   Estimate parameters
+getdata.c    Input functions
+header.c     Print header
+identity.c   Calculate theoretical mismatch distribution
+iscoales.c   Coalescent algorithm
+lblaxis.c    Make pretty labels for axes
+linpk.c      Linpack subroutines translated from fortran
+mahal.c      Mahalanobis distance
+memstack.c   Memory allocation
+ndx.c        Keep track of array indices
+simulate.c   Do simulations
+testH0.c     Test hypotheses
+unirand.c    Random number generasion
+csw.mm       Sample data file
+dummy.seq    Sample sequence data
+mkfig.tex    For making plots with LaTeX
+
+
+MAKING AND INSTALLING THE EXECUTABLES
+
+If you are working on a Sun Sparcstation running Solaris, you are in
+luck because the distribution includes executable files for your
+machine.  All you have to do is copy them into a directory within your
+search path (e.g. $HOME/bin or /usr/local/bin), type rehash, and you
+are ready to go.
+
+If you are not on a Sparcstation, you will have to compile the source
+code.  This requires a modern C compiler; the code will not compile
+with the old Kernighan and Richie style compilers.
+
+I will assume that your system has a copy of the program make, which
+is available on all UNIX systems and also on many others.  If you
+don't have make, you will need to construct batch files to automate
+the task of compiling and linking the various modules together.
+
+If you have make, proceed as follows:
+
+1. Edit the file "Makefile" and change the definition of BINDIR in the
+fourth line.  This line defines the directory into which you want the
+executable files to be placed.  On a UNIX machine, reasonable choices
+include
+
+    BINDIR = "/usr/local/bin"
+
+or
+
+    BINDIR = "$(HOME)/bin"
+
+Under DOS, you might use
+
+    BINDIR = "\bin"
+
+Just make sure that the directory listed here really exists.
+
+2. On DOS or UNIX machines, make sure that the PATH variable includes
+the directory you defined in step 1 above.
+
+3. Type "make" to compile everything (this will take awhile).
+
+4. Run off the manual (see the instructions in the README.DOC file in the
+doc directory).
+
+5. To test the system, work through the tutorial chapter of the manual
+using the the mismatch data in file "csw.mm".
+
+6. If everything works, type "make install" to copy the executable
+files into the appropriate directory.  If the directory defined by
+"BINDIR" is in your search path, you will then be able to execute the
+modules of Mismatch from any directory.  (On UNIX systems, you may have
+to type rehash to help the machine find these new executables.)
+
+DOCUMENTATION
+
+The documentation is in the directory "doc".  Consult the "README.DOC"
+file therein.

@@ -1,0 +1,100 @@
+% -*-latex-*-
+\chapter{Program: \io{ci2ptx}\label{ch.ci2ptx}}
+
+\section{Purpose} Plot a confidence region using \PiCTeX\ graphics
+
+\section{Usage\label{sec.ci2ptx.usage}} \io{ci2ptx [options] [inputfile]}\\
+where options may include:
+\begin{description}
+\item[\io{-h$<$number$>$}] Set plot height to \verb@<number>@ inches.
+\item[\io{-w$<$number$>$}] Set plot width to \verb@<number>@ inches.
+\end{description}
+By default, the program reads standard input.
+
+\section{Description}
+
+\io{ci2ptx} reads an input file describing a confidence region, which
+must be in the format of the output produced by \io{mmci}, and writes
+a series of \PiCTeX{} commands to the standard output.  These commands
+generate a graphical display of the confidence region when processed
+by the text-formatting program \LaTeX\ \cite{Lamport:LDP-94} together with the
+\PiCTeX{} macros \cite{Wichura:PM-87}.  These are both available from
+the address listed in the bibliography.
+
+To produce a graphical display, proceed as follows:
+\begin{enumerate}
+\item Execute the command 
+\begin{verbatim}
+  ci2ptx csw.ci > figxxx.tex
+\end{verbatim}
+to place \PiCTeX{} code into the file \io{figxxx.tex}.  
+
+\item Copy the file mkfig.tex from the directory that contains the
+    mismatch source code into your current directory.  \io{mkfig.tex} is
+    a very brief file that tells \LaTeX{} to read in the file
+    \io{figxxx.tex}, which you just created.
+
+\item Make sure that your current directory contains a file called
+      \io{mkfig.tex} containing the following:
+\begin{verbatim}
+% -*-latex-*-
+\documentclass[]{article}
+\usepackage{pictex}
+\begin{document}
+\input{figxxx}       %% Edit this line to match your filename
+\end{document}
+\end{verbatim}
+If you change the name of \io{figxxx.tex}, you must edit
+\io{mkfig.tex} to reflect this change.
+
+\item Type \io{latex mkfig} to run \LaTeX.  This produces a file called
+    \io{mkfig.dvi}.
+
+\item To look at the resulting plot on your screen, try typing
+      \io{xdvi~mkfig} if you are working under X-windows.  If this
+      doesn't work, or if you are working in some other environment,
+      ask your local computer guru how to preview the ``.dvi'' files
+      that are produced by \TeX.
+
+\item On my system, the next step is to type \io{dvips~mkfig}.  This
+is really two steps rolled into one.  First, \io{dvips} translates the
+.dvi format into the format that my printer understands.  Second, it
+passes the translation to the printer.  This may require two steps on
+your system.
+\end{enumerate}
+
+\subsection{Customizing the figure}
+
+If you don't like the way the figure looks, there are two things you
+can do.
+
+\subsubsection{Customizing with command line arguments}
+ 
+To make the individual plots 0.75 by 0.75 inches, use the following
+command:
+\begin{verbatim}
+  ci2ptx -w0.75 -h0.75 csw.ci > figxxx.tex
+\end{verbatim}
+
+\subsubsection{Editing the \PiCTeX{} file}
+
+You can also change the way the figure looks by editing the \PiCTeX{}
+code in \io{figxxx.tex}.  For example, the lines that read
+\begin{verbatim}
+%% Use the following to hide the 1% region
+%\def\99pct{\reject}
+\end{verbatim}
+provide a means of making the 99 percent confidence region show on the
+graph.  All you have to do is to remove the ``\%'' from the second of
+these lines.  The lines that read
+\begin{verbatim}
+%% Definitions:
+\def\accept{{$\bullet$}}
+\def\99pct{{$\cdot$}}
+\def\reject{{\footnotesize$\circ$}}
+\end{verbatim}
+provide a means of changing the symbols that are used to represent
+points inside and outside of the confidence region.  Change these
+definitions to whatever suits you.
+
+

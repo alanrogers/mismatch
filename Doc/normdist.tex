@@ -1,0 +1,44 @@
+% -*-latex-*-
+\chapter{Program: \io{normdist}\label{ch.normdist}}
+
+\section{Purpose} Normalize (or un-normalize) mismatch distributions
+
+\section{Usage\label{sec.normdist.usage}} \io{normdist [options] inputfile}\\
+where options may include:
+\begin{description}
+\item[\io{-r$<$sampsize$>$}] Invert the usual operation? Default=NO
+\item[\io{-2}]    Two-column output? Default=NO
+\end{description}
+
+\section{Description}
+
+\section{Normalizing Mismatch Distributions}
+
+The programs in this package demand that the mismatch distribution be
+a list of integers, telling the number of pairs of individuals who
+differ by $i$ sites, where $i=0,1,\ldots{}$.  In graphing such
+distributions, on the other hand, it is usually better to normalize
+the distribution so that it sums to unity.  The \io{normdist} program
+is provided to simplify the tasks of (a)~normalizing distributions,
+and (b)~converting normalizing distributions back to integer format.
+
+To normalize a distribution, type
+\begin{verbatim}
+  normdist filename
+\end{verbatim}
+where \io{filename} is the name of a file containing a mismatch
+distribution as a simple list of integers.  The program will type out
+a normalized distribution.  To get the distribution in two-column
+format, type
+\begin{verbatim}
+  normdist -2 filename
+\end{verbatim}
+If your distribution is already normalized, you may wish to convert it
+back into integer format.  To do this, you must know the sample size.
+Given this information, the reverse transformation is done by typing
+\begin{verbatim}
+  normdist -r<N> filename
+\end{verbatim}
+
+where \verb@<N>@ represents the sample size.
+

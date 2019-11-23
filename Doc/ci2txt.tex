@@ -1,0 +1,80 @@
+% -*-latex-*-
+\chapter{Program: \io{ci2txt}\label{ch.ci2txt}}
+
+\section{Purpose} Plot a confidence region using character graphics
+
+\section{Usage\label{sec.ci2txt.usage}} \io{ci2txt [inputfile]}\\
+By default, the program reads standard input.
+
+\section{Description}
+
+\io{ci2txt} reads an input file describing a confidence region, which
+must be in the format of the output produced by \io{mmci}, and draws a
+graph of the confidence region on standard output.  The graph is
+produced using standard text characters.
+
+The output consistes of several panels, one for each level of the
+growth parameter.  For example, if the input to \io{mmci} contained
+the line
+\begin{verbatim}
+RangeGrowth = 0 3 1 ;
+\end{verbatim}
+then the four values of the growth parameter will be considered by
+\io{mmci}: 0, 1, 2, and 3.  Accordingly, there will be four panels in
+the output of \io{ci2txt}.  The first panel look like this:
+\begin{alltt}
+\begin{minipage}{\textwidth}
+Definitions:
+ O : Reject at 1 percent significance level
+ . : Within 99 percent confidence region
+ * : Within 95 percent confidence region
+
+Panel 0: N1/N0 = 10^0:
+
+l          +-----------+
+o    3.00  |      O    |
+g    2.50  |      O    |
+     2.00  |      O    |
+t    1.50  |      O    |
+h    1.00  |      *    |
+e    0.50  |      *    |
+t    0.00  |      O    |
+a          +-----------+
+0                       
+              undefined 
+\end{minipage}
+\end{alltt}
+This panel summarizes simulations for the case in which no growth
+occurred, so that $\THETAa = \THETAb$.  The vertical axis shows values
+of $\CLog \THETAa$.  The horizontal axis is usually for $\TAU$, but it
+is undefined here because this panel is for the case in which no
+growth has occurred.  Within the plot, each symbol indicates the
+result of a hypothesis test.  Open circles ``O'' indicate hypotheses
+that have been rejected at the 0.01 significance level, dots ``.''
+indicate hypotheses that have been rejected at the 0.05 significance
+level, and asterisks ``*'' indicate hypotheses that have not been
+rejected.   The plot shown here indicates that we cannot reject the
+hypotheses that $\CLog \THETA = 0.5$ or that $\CLog \THETA = 1$.  All
+other hypotheses involving a constant population size are rejected.
+
+The second panel in the output of \io{ci2txt} looks like
+\begin{alltt}
+\begin{minipage}{\textwidth}
+Panel 1: N1/N0 = 10^1:
+
+l          +-----------+
+o    3.00  |O O O O O O|
+g    2.50  |O O O O O O|
+     2.00  |O O O O O O|
+t    1.50  |O O O O O O|
+h    1.00  |* * * . O O|
+e    0.50  |* * * * * O|
+t    0.00  |O * * * * *|
+a          +-----------+
+0                   1 1 
+            2 4 6 8 0 2 
+                        
+                    tau 
+\end{minipage}
+\end{alltt}
+

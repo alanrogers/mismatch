@@ -1,0 +1,121 @@
+% -*-latex-*-
+%InputFile = csw.ci2
+%RangeLog10Theta0: -1.500000 1.500000 0.500000 
+%RangeGrowth: 0.000000 3.000000 1.000000 
+%RangeTau: 2.000000 12.000000 2.000000 
+%% Confidence Interval: PicTeX output %%
+%% Definitions:
+\def\accept{{$\bullet$}}
+\def\99pct{{$\cdot$}}
+\def\reject{{\footnotesize$\circ$}}
+%% Use the following to hide the 1% region
+\def\99pct{\reject}
+%%Plots are 1.000000 inch wide and 0.500000 inches high
+\begin{figure}
+\begin{center}
+\mbox{%
+\beginpicture
+\headingtoplotskip=0.5\baselineskip
+\valuestolabelleading=0.4\baselineskip
+%%%%%%%%%%%% Plot figure in row 0 col 0 %%%%%%%%%%%%
+\setcoordinatesystem units <0.100000in,0.166667in> point at 22.000000 1.500000
+\setplotarea x from 2.000000 to 12.000000, y from -1.500000 to 1.500000
+\axis bottom shiftedto y=-1.800000 /
+\axis left shiftedto x=1.500000 label {$\theta_0$}
+   ticks withvalues 0.1 1 10 /
+     at -1.000000 0.000000 1.000000 / /
+\plotheading{\small No growth}
+%                        tau log10[theta0]
+\put   {\reject} at        7     -1.500000   %p-val=0
+\put   {\reject} at        7     -1.000000   %p-val=0
+\put   {\reject} at        7     -0.500000   %p-val=0.004
+\put    {\99pct} at        7      0.000000   %p-val=0.018
+\put   {\reject} at        7      0.500000   %p-val=0.008
+\put   {\reject} at        7      1.000000   %p-val=0.002
+\put   {\reject} at        7      1.500000   %p-val=0
+%%%%%%%%%%%% Plot figure in row 0 col 1 %%%%%%%%%%%%
+\setcoordinatesystem units <0.100000in,0.166667in> point at 2.000000 1.500000
+\setplotarea x from 2.000000 to 12.000000, y from -1.500000 to 1.500000
+\axis bottom shiftedto y=-1.800000 label {$\tau$}
+   ticks withvalues 2.5 5 7.5 10 /
+     at 2.500000 5.000000 7.500000 10.000000 / /
+\axis left shiftedto x=1.500000 label {$\theta_0$}
+   ticks withvalues 0.1 1 10 /
+     at -1.000000 0.000000 1.000000 / /
+\plotheading{\small$10^{1}$-fold growth}
+%                        tau log10[theta0]
+\put   {\reject} at        2     -1.500000   %p-val=0
+\put    {\99pct} at        2     -1.000000   %p-val=0.016
+\put   {\reject} at        2     -0.500000   %p-val=0.004
+\put   {\reject} at        2      0.000000   %p-val=0
+\put   {\reject} at        2      0.500000   %p-val=0.002
+\put   {\reject} at        2      1.000000   %p-val=0
+\put   {\reject} at        2      1.500000   %p-val=0
+\put   {\reject} at        4     -1.500000   %p-val=0
+\put    {\99pct} at        4     -1.000000   %p-val=0.022
+\put    {\99pct} at        4     -0.500000   %p-val=0.01
+\put   {\reject} at        4      0.000000   %p-val=0
+\put   {\reject} at        4      0.500000   %p-val=0
+\put   {\reject} at        4      1.000000   %p-val=0
+\put   {\reject} at        4      1.500000   %p-val=0
+\put   {\reject} at        6     -1.500000   %p-val=0
+\put   {\accept} at        6     -1.000000   %p-val=0.082
+\put    {\99pct} at        6     -0.500000   %p-val=0.022
+\put   {\reject} at        6      0.000000   %p-val=0.002
+\put   {\reject} at        6      0.500000   %p-val=0
+\put   {\reject} at        6      1.000000   %p-val=0
+\put   {\reject} at        6      1.500000   %p-val=0
+\put   {\reject} at        8     -1.500000   %p-val=0
+\put   {\accept} at        8     -1.000000   %p-val=0.102
+\put    {\99pct} at        8     -0.500000   %p-val=0.038
+\put    {\99pct} at        8      0.000000   %p-val=0.01
+\put   {\reject} at        8      0.500000   %p-val=0
+\put   {\reject} at        8      1.000000   %p-val=0
+\put   {\reject} at        8      1.500000   %p-val=0
+\put   {\reject} at       10     -1.500000   %p-val=0
+\put   {\accept} at       10     -1.000000   %p-val=0.096
+\put   {\accept} at       10     -0.500000   %p-val=0.098
+\put   {\reject} at       10      0.000000   %p-val=0
+\put   {\reject} at       10      0.500000   %p-val=0.002
+\put   {\reject} at       10      1.000000   %p-val=0
+\put   {\reject} at       10      1.500000   %p-val=0
+\put   {\reject} at       12     -1.500000   %p-val=0
+\put   {\accept} at       12     -1.000000   %p-val=0.058
+\put   {\accept} at       12     -0.500000   %p-val=0.244
+\put   {\reject} at       12      0.000000   %p-val=0.004
+\put   {\reject} at       12      0.500000   %p-val=0
+\put   {\reject} at       12      1.000000   %p-val=0
+\put   {\reject} at       12      1.500000   %p-val=0
+%%%%%%%%%%%% Plot figure in row 1 col 0 %%%%%%%%%%%%
+\setcoordinatesystem units <0.100000in,0.166667in> point at 22.000000 9.000000
+\setplotarea x from 2.000000 to 12.000000, y from -1.500000 to 1.500000
+\axis bottom shiftedto y=-1.800000 label {$\tau$}
+   ticks withvalues 2.5 5 7.5 10 /
+     at 2.500000 5.000000 7.500000 10.000000 / /
+\axis left shiftedto x=1.500000 label {$\theta_0$}
+   ticks withvalues 0.1 1 10 /
+     at -1.000000 0.000000 1.000000 / /
+\plotheading{\small$10^{2}$-fold growth}
+%                        tau log10[theta0]
+\put   {\reject} at        2     -1.500000   %p-val=0.006
+\put   {\reject} at        2     -1.000000   %p-val=0.002
+\put   {\reject} at        2     -0.500000   %p-val=0
+\put   {\reject} at        2      0.000000   %p-val=0
+\put   {\reject} at        2      0.500000   %p-val=0
+\put   {\reject} at        2      1.000000   %p-val=0
+\put   {\reject} at        2      1.500000   %p-val=0
+\put   {\reject} at        4     -1.500000   %p-val=0.008
+\put   {\reject} at        4     -1.000000   %p-val=0.004
+\put   {\reject} at        4     -0.500000   %p-val=0
+\put   {\reject} at        4      0.000000   %p-val=0
+\put   {\reject} at        4      0.500000   %p-val=0
+\put   {\reject} at        4      1.000000   %p-val=0
+\put   {\reject} at        4      1.500000   %p-val=0
+\put    {\99pct} at        6     -1.500000   %p-val=0.014
+\put   {\reject} at        6     -1.000000   %p-val=0.002
+\put   {\reject} at        6     -0.500000   %p-val=0
+\put   {\reject} at        6      0.000000   %p-val=0
+\endpicture}
+\end{center}
+\caption{Confidence Region}
+\end{figure}

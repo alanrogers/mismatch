@@ -1,0 +1,135 @@
+% -*-latex-*-
+%InputFile = mae.ci
+%RangeLog10Theta0: -0.500000 1.000000 0.500000 
+%RangeGrowth: 0.000000 3.000000 1.000000 
+%RangeTau: 1.000000 10.000000 2.000000 
+%Varying log10theta0 from -0.5 to 1 by 0.5
+%Varying log10(theta1/theta0) from 0 to 3 by 1
+%Varying tau from 1 to 10 by 2
+%% Confidence Interval: PicTeX output %%
+%% Definitions:
+\def\hunit{0.111111in}
+\def\vunit{0.333333in}
+\def\accept{{$\bullet$}}
+\def\99pct{{$\cdot$}}
+\def\reject{{\footnotesize$\circ$}}
+%% Use the following to hide the 1% region
+\def\99pct{\reject}
+%%Plots are 1.000000 inch wide and 0.500000 inches high
+\begin{figure}
+\begin{center}
+\framebox{\mbox{%
+\beginpicture
+\headingtoplotskip=0.5\baselineskip
+\valuestolabelleading=0.4\baselineskip
+%%%%%%%%%%%% Plot figure in row 0 col 0 %%%%%%%%%%%%
+\setcoordinatesystem units <\hunit,\vunit> point at 19.000000 0.500000
+\setplotarea x from 1.000000 to 10.000000, y from -0.500000 to 1.000000
+\axis bottom shiftedto y=-0.650000 /
+\axis left shiftedto x=0.550000 label {$\theta_0$}
+   ticks withvalues 0.3 1 3.2 10 /
+     at -0.500000 0.000000 0.500000 1.000000 / /
+\plotheading{\small No growth}
+%                        tau log10[theta0]
+\put   {\reject} at      5.5     -0.500000   %p-val=0
+\put   {\reject} at      5.5      0.000000   %p-val=0
+\put   {\reject} at      5.5      0.500000   %p-val=0
+\put   {\accept} at      5.5      1.000000   %p-val=0.272
+%%%%%%%%%%%% Plot figure in row 0 col 1 %%%%%%%%%%%%
+\setcoordinatesystem units <\hunit,\vunit> point at 1.000000 0.500000
+\setplotarea x from 1.000000 to 10.000000, y from -0.500000 to 1.000000
+\axis bottom shiftedto y=-0.650000 label {$\tau$}
+   ticks withvalues 2.5 5 7.5 10 /
+     at 2.500000 5.000000 7.500000 10.000000 / /
+\axis left shiftedto x=0.550000 label {$\theta_0$}
+   ticks withvalues 0.3 1 3.2 10 /
+     at -0.500000 0.000000 0.500000 1.000000 / /
+\plotheading{\small 10-fold growth}
+%                        tau log10[theta0]
+\put   {\reject} at        1     -0.500000   %p-val=0
+\put   {\reject} at        1      0.000000   %p-val=0
+\put   {\reject} at        1      0.500000   %p-val=0
+\put   {\accept} at        1      1.000000   %p-val=0.276
+\put   {\reject} at        3     -0.500000   %p-val=0
+\put   {\reject} at        3      0.000000   %p-val=0
+\put    {\99pct} at        3      0.500000   %p-val=0.028
+\put   {\accept} at        3      1.000000   %p-val=0.46
+\put   {\reject} at        5     -0.500000   %p-val=0
+\put    {\99pct} at        5      0.000000   %p-val=0.012
+\put   {\accept} at        5      0.500000   %p-val=0.396
+\put   {\accept} at        5      1.000000   %p-val=0.476
+\put   {\reject} at        7     -0.500000   %p-val=0
+\put   {\accept} at        7      0.000000   %p-val=0.088
+\put   {\accept} at        7      0.500000   %p-val=0.916
+\put   {\accept} at        7      1.000000   %p-val=0.124
+\put   {\reject} at        9     -0.500000   %p-val=0
+\put   {\accept} at        9      0.000000   %p-val=0.364
+\put   {\accept} at        9      0.500000   %p-val=0.708
+\put    {\99pct} at        9      1.000000   %p-val=0.012
+%%%%%%%%%%%% Plot figure in row 1 col 0 %%%%%%%%%%%%
+\setcoordinatesystem units <\hunit,\vunit> point at 19.000000 4.250000
+\setplotarea x from 1.000000 to 10.000000, y from -0.500000 to 1.000000
+\axis bottom shiftedto y=-0.650000 label {$\tau$}
+   ticks withvalues 2.5 5 7.5 10 /
+     at 2.500000 5.000000 7.500000 10.000000 / /
+\axis left shiftedto x=0.550000 label {$\theta_0$}
+   ticks withvalues 0.3 1 3.2 10 /
+     at -0.500000 0.000000 0.500000 1.000000 / /
+\plotheading{\small$10^{2}$-fold growth}
+%                        tau log10[theta0]
+\put   {\reject} at        1     -0.500000   %p-val=0
+\put   {\reject} at        1      0.000000   %p-val=0
+\put   {\reject} at        1      0.500000   %p-val=0
+\put   {\accept} at        1      1.000000   %p-val=0.276
+\put   {\reject} at        3     -0.500000   %p-val=0
+\put   {\reject} at        3      0.000000   %p-val=0
+\put   {\accept} at        3      0.500000   %p-val=0.056
+\put   {\accept} at        3      1.000000   %p-val=0.436
+\put   {\reject} at        5     -0.500000   %p-val=0
+\put   {\reject} at        5      0.000000   %p-val=0
+\put   {\accept} at        5      0.500000   %p-val=0.38
+\put   {\accept} at        5      1.000000   %p-val=0.472
+\put   {\accept} at        7     -0.500000   %p-val=0.08
+\put   {\accept} at        7      0.000000   %p-val=0.18
+\put   {\accept} at        7      0.500000   %p-val=1
+\put   {\accept} at        7      1.000000   %p-val=0.092
+\put   {\accept} at        9     -0.500000   %p-val=0.812
+\put   {\accept} at        9      0.000000   %p-val=0.776
+\put   {\accept} at        9      0.500000   %p-val=0.22
+\put   {\reject} at        9      1.000000   %p-val=0.008
+%%%%%%%%%%%% Plot figure in row 1 col 1 %%%%%%%%%%%%
+\setcoordinatesystem units <\hunit,\vunit> point at 1.000000 4.250000
+\setplotarea x from 1.000000 to 10.000000, y from -0.500000 to 1.000000
+\axis bottom shiftedto y=-0.650000 label {$\tau$}
+   ticks withvalues 2.5 5 7.5 10 /
+     at 2.500000 5.000000 7.500000 10.000000 / /
+\axis left shiftedto x=0.550000 label {$\theta_0$}
+   ticks withvalues 0.3 1 3.2 10 /
+     at -0.500000 0.000000 0.500000 1.000000 / /
+\plotheading{\small$10^{3}$-fold growth}
+%                        tau log10[theta0]
+\put   {\reject} at        1     -0.500000   %p-val=0
+\put   {\reject} at        1      0.000000   %p-val=0
+\put   {\reject} at        1      0.500000   %p-val=0
+\put   {\accept} at        1      1.000000   %p-val=0.264
+\put   {\reject} at        3     -0.500000   %p-val=0
+\put   {\reject} at        3      0.000000   %p-val=0
+\put    {\99pct} at        3      0.500000   %p-val=0.044
+\put   {\accept} at        3      1.000000   %p-val=0.44
+\put   {\reject} at        5     -0.500000   %p-val=0
+\put   {\reject} at        5      0.000000   %p-val=0.008
+\put   {\accept} at        5      0.500000   %p-val=0.468
+\put   {\accept} at        5      1.000000   %p-val=0.472
+\put   {\reject} at        7     -0.500000   %p-val=0
+\put   {\accept} at        7      0.000000   %p-val=0.136
+\put   {\accept} at        7      0.500000   %p-val=0.98
+\put   {\accept} at        7      1.000000   %p-val=0.06
+\put   {\accept} at        9     -0.500000   %p-val=0.58
+\put   {\accept} at        9      0.000000   %p-val=0.296
+\put   {\accept} at        9      0.500000   %p-val=0.144
+\put   {\reject} at        9      1.000000   %p-val=0
+\endpicture}}
+\end{center}
+\caption{Confidence Region}
+Maximum likelihood estimates: $\hat\theta_0=3.16228$, $\hat\theta_1=316.228$, $\hat\tau=7$, $\hbox{$p$-val}=1$
+\end{figure}
